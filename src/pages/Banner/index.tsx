@@ -1,0 +1,82 @@
+import { useEffect, useState, useCallback } from 'react';
+import { Table, Button, Modal, Form, Input, InputNumber, Space, Popconfirm, Typography, message, Select, Image } from 'antd';
+import { PlusOutlined, EditOutlined, DeleteOutlined } from '@ant-design/icons';
+import type { Banner } from '../../api/banner';
+import * as api from '../../api/banner';
+
+export default function BannerPage() {
+  const [data, setData] = useState<Banner[]>([]);
+  const [total, setTotal] = useState(0);
+  const [loading, setLoading] = useState(false);
+  const [page, setPage] = useState(1);
+  const [modalOpen, setModalOpen] = useState(false);
+  const [editing, setEditing] = useState<Banner | null>(null);
+  const [form] = Form.useForm();
+
+  const fetch = useCallback(async (p = page) => {
+    setLoading(true);
+    try {
+      const res: any = await api.getBannerList({ pageNum: p, pageSize: 10 });
+      setData(res?.rows || []);
+      setTotal(res?.total || 0);
+    } finally { setLoading(false); }
+  }, [page]);
+
+  useEffect(() => { fetch(); }, [fetch]);
+
+  const openAdd = () => { setEditing(null); form.resetFields(); form.setFieldsValue({ status: '1', sortOrder: 0 }); setModalOpen(true); };
+  const openEdit = (record: Banner) => { setEditing(record); form.setFieldsValue(record); setModalOpen(true); };
+
+  const handleOk = async () => {
+    const values = await form.validateFields();
+    if (editing) await api.updateBanner({ ...values, id: editing.id });
+    else await api.addBanner(values);
+    setModalOpen(false); message.success(editing ? '更新成功' : '添加成功'); fetch();
+  };
+
+  const handleDelete = async (ids: number[]) => { await api.deleteBanner(ids); message.success('删除成功'); fetch(); };
+
+  const columns = [
+    { title: 'ID', dataIndex: 'id', width: 50 },
+    { title: '标题', dataIndex: 'title', width: 160 },
+    { title: '预览', dataIndex: 'imageUrl', width: 100, render: (v: string) => <Image src={v} width={60} height={40} style={{ borderRadius: 6, objectFit: 'cover' }} fallback="data:image/svg+xml;base64,PHA..."/> },
+    { title: '图片URL', dataIndex: 'imageUrl', ellipsis: true, width: 260 },
+    { title: '跳转链接', dataIndex: 'linkUrl', ellipsis: true, width: 200 },
+    { title: '排序', dataIndex: 'sortOrder', width: 60 },
+    { title: '状态', dataIndex: 'status', width: 70,
+      render: (v: string) => v === '1' ? <span style={{ color: '#10b981' }}>启用</span> : <span style={{ color: '#ef4444' }}>停用</span> },
+    { title: '操作', key: 'action', width: 140,
+      render: (_: unknown, r: Banner) => (
+        <Space>
+          <Button type="link" icon={<EditOutlined />} onClick={() => openEdit(r)}>编辑</Button>
+          <Popconfirm title="确定删除?" onConfirm={() => handleDelete([r.id!])}>
+            <Button type="link" danger icon={<DeleteOutlined />}>删除</Button>
+          </Popconfirm>
+        </Space>
+      ),
+    },
+  ];
+
+  return (
+    <div>
+      <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 16 }}>
+        <Typography.Title level={3} style={{ color: '#e8e8ed', margin: 0 }}>Banner管理</Typography.Title>
+        <Button type="primary" icon={<PlusOutlined />} onClick={openAdd}>新增Banner</Button>
+      </div>
+      <Table rowKey="id" columns={columns} dataSource={data} loading={loading}
+        pagination={{ current: page, total, pageSize: 10, onChange: (p) => { setPage(p); fetch(p); } }}
+        locale={{ emptyText: '暂无数据' }} />
+      <Modal title={editing ? '编辑Banner' : '新增Banner'} open={modalOpen} onOk={handleOk} onCancel={() => setModalOpen(false)} width={520}>
+        <Form form={form} layout="vertical">
+          <Form.Item name="title" label="标题" rules={[{ required: true }]}><Input /></Form.Item>
+          <Form.Item name="imageUrl" label="图片URL" rules={[{ required: true }]}><Input placeholder="https://..." /></Form.Item>
+          <Form.Item name="linkUrl" label="跳转链接"><Input placeholder="/pages/car-detail/index?id=1" /></Form.Item>
+          <Form.Item name="sortOrder" label="排序"><InputNumber min={0} /></Form.Item>
+          <Form.Item name="status" label="状态">
+            <Select options={[{ label: '启用', value: '1' }, { label: '停用', value: '0' }]} />
+          </Form.Item>
+        </Form>
+      </Modal>
+    </div>
+  );
+}
