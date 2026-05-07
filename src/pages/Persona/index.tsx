@@ -64,7 +64,7 @@ export default function PersonaPage() {
   return (
     <div>
       <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 16 }}>
-        <Typography.Title level={3} style={{ color: '#e8e8ed', margin: 0 }}>用户画像</Typography.Title>
+        <Typography.Title level={3} style={{ margin: 0 }}>用户画像</Typography.Title>
         <Button type="primary" icon={<PlusOutlined />} onClick={openAdd}>新增画像</Button>
       </div>
       <Table rowKey="id" columns={columns} dataSource={data} loading={loading}

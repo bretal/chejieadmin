@@ -53,21 +53,6 @@ const useStyles = createStyles(({ css, cssVar }) => {
         color: `color-mix(in srgb, ${cssVar.colorText} 80%, transparent)`,
       },
     }),
-    buttonPrimary: css({
-      background: `color-mix(in srgb, ${cssVar.colorPrimary} 60%, transparent)`,
-      backdropFilter: 'blur(8px)',
-      color: '#fff',
-
-      '&:hover': {
-        background: `color-mix(in srgb, ${cssVar.colorPrimary} 80%, transparent) !important`,
-        color: '#fff',
-      },
-
-      '&:active': {
-        background: `color-mix(in srgb, ${cssVar.colorPrimary} 45%, transparent) !important`,
-        color: '#fff',
-      },
-    }),
 
     dropdownRoot: css({
       ...glassBox,
@@ -155,9 +140,8 @@ const useGlassTheme = () => {
         classNames: ({ props }) => ({
           root: clsx(
             styles.buttonRoot,
-            (props.variant !== 'solid' || props.color === 'default' || props.type === 'default')
-              ? styles.buttonRootDefaultColor
-              : styles.buttonPrimary,
+            (props.variant !== 'solid' || props.color === 'default' || props.type === 'default') &&
+              styles.buttonRootDefaultColor,
           ),
         }),
       },
@@ -233,7 +217,7 @@ const useGlassTheme = () => {
         },
       },
     }),
-    [],
+    [styles],
   );
 };
 export default useGlassTheme;

@@ -34,25 +34,18 @@ export default function Dashboard() {
 
   return (
     <div>
-      <Typography.Title level={3} style={{ color: '#e8e8ed', marginBottom: 24 }}>
+      <Typography.Title level={3} style={{ marginBottom: 24 }}>
         仪表盘
       </Typography.Title>
       <Row gutter={[16, 16]}>
         {cards.map((c) => (
           <Col xs={24} sm={12} lg={6} key={c.title}>
-            <Card
-              style={{
-                background: 'rgba(255,255,255,0.05)',
-                backdropFilter: 'blur(16px)',
-                border: '1px solid rgba(255,255,255,0.08)',
-                borderRadius: 16,
-              }}
-            >
+            <Card>
               <Statistic
-                title={<span style={{ color: '#a0a0b0' }}>{c.title}</span>}
+                title={c.title}
                 value={c.value}
                 prefix={<span style={{ color: c.color }}>{c.icon}</span>}
-                valueStyle={{ color: '#e8e8ed', fontWeight: 600 }}
+                valueStyle={{ fontWeight: 600 }}
               />
             </Card>
           </Col>

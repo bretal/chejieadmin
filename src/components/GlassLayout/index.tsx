@@ -35,17 +35,25 @@ export default function GlassLayout() {
   const navigate = useNavigate();
   const location = useLocation();
 
+  const shellSurface = {
+    background: 'color-mix(in srgb, #ffffff 34%, transparent)',
+    backdropFilter: 'blur(22px)',
+    WebkitBackdropFilter: 'blur(22px)',
+    border: '1px solid rgba(255, 255, 255, 0.56)',
+    boxShadow: '0 18px 48px rgba(28, 75, 128, 0.14), inset 0 0 5px 2px rgba(255, 255, 255, 0.34)',
+  };
+
   return (
-    <Layout style={{ height: '100vh', background: 'transparent' }}>
+    <Layout style={{ height: '100vh', background: 'transparent', padding: 16, gap: 16 }}>
       <Sider
         trigger={null}
         collapsible
         collapsed={collapsed}
         width={200}
         style={{
-          background: 'rgba(255, 255, 255, 0.04)',
-          backdropFilter: 'blur(16px)',
-          borderRight: '1px solid rgba(255, 255, 255, 0.08)',
+          ...shellSurface,
+          overflow: 'hidden',
+          borderRadius: 24,
         }}
       >
         <div style={{
@@ -53,10 +61,10 @@ export default function GlassLayout() {
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
-          borderBottom: '1px solid rgba(255,255,255,0.08)',
+          borderBottom: '1px solid rgba(77, 114, 152, 0.1)',
         }}>
           <Typography.Title level={4} style={{
-            color: '#e8e8ed',
+            color: '#1f2a44',
             margin: 0,
             whiteSpace: 'nowrap',
             letterSpacing: 2,
@@ -65,7 +73,6 @@ export default function GlassLayout() {
           </Typography.Title>
         </div>
         <Menu
-          theme="dark"
           mode="inline"
           selectedKeys={[location.pathname]}
           items={menuItems}
@@ -77,30 +84,32 @@ export default function GlassLayout() {
           }}
         />
       </Sider>
-      <Layout style={{ background: 'transparent' }}>
+      <Layout style={{ minWidth: 0, background: 'transparent' }}>
         <Header style={{
-          background: 'rgba(255, 255, 255, 0.04)',
-          backdropFilter: 'blur(16px)',
-          borderBottom: '1px solid rgba(255, 255, 255, 0.08)',
+          ...shellSurface,
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'space-between',
           padding: '0 24px',
+          borderRadius: 24,
+          height: 64,
+          lineHeight: '64px',
         }}>
           <Button
             type="text"
             icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
             onClick={() => setCollapsed(!collapsed)}
-            style={{ color: '#e8e8ed', fontSize: 16 }}
+            style={{ color: '#1f2a44', fontSize: 16 }}
           />
-          <Typography.Text style={{ color: '#a0a0b0', fontSize: 13 }}>
+          <Typography.Text style={{ color: 'rgba(31, 42, 68, 0.62)', fontSize: 13 }}>
             车界数据管理平台
           </Typography.Text>
         </Header>
         <Content style={{
-          padding: 24,
+          marginTop: 16,
+          padding: 8,
           overflow: 'auto',
-          height: 'calc(100vh - 64px)',
+          height: 'calc(100vh - 112px)',
         }}>
           <Outlet />
         </Content>

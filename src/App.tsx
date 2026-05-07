@@ -1,5 +1,5 @@
 import { Routes, Route } from 'react-router-dom';
-import { ConfigProvider } from 'antd';
+import { App as AntdApp, ConfigProvider } from 'antd';
 import zhCN from 'antd/locale/zh_CN';
 import useGlassTheme from './glassTheme';
 import GlassLayout from './components/GlassLayout';
@@ -19,20 +19,22 @@ export default function App() {
 
   return (
     <ConfigProvider {...glassConfig} locale={zhCN}>
-      <Routes>
-        <Route path="/" element={<GlassLayout />}>
-          <Route index element={<Dashboard />} />
-          <Route path="brand" element={<BrandPage />} />
-          <Route path="car" element={<CarPage />} />
-          <Route path="car-config" element={<CarConfigPage />} />
-          <Route path="car-media" element={<CarMediaPage />} />
-          <Route path="car-color" element={<CarColorPage />} />
-          <Route path="car-rival" element={<CarRivalPage />} />
-          <Route path="persona" element={<PersonaPage />} />
-          <Route path="persona-car" element={<PersonaCarPage />} />
-          <Route path="banner" element={<BannerPage />} />
-        </Route>
-      </Routes>
+      <AntdApp>
+        <Routes>
+          <Route path="/" element={<GlassLayout />}>
+            <Route index element={<Dashboard />} />
+            <Route path="brand" element={<BrandPage />} />
+            <Route path="car" element={<CarPage />} />
+            <Route path="car-config" element={<CarConfigPage />} />
+            <Route path="car-media" element={<CarMediaPage />} />
+            <Route path="car-color" element={<CarColorPage />} />
+            <Route path="car-rival" element={<CarRivalPage />} />
+            <Route path="persona" element={<PersonaPage />} />
+            <Route path="persona-car" element={<PersonaCarPage />} />
+            <Route path="banner" element={<BannerPage />} />
+          </Route>
+        </Routes>
+      </AntdApp>
     </ConfigProvider>
   );
 }

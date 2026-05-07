@@ -63,7 +63,7 @@ export default function CarRivalPage() {
   return (
     <div>
       <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 16 }}>
-        <Typography.Title level={3} style={{ color: '#e8e8ed', margin: 0 }}>竞品关系</Typography.Title>
+        <Typography.Title level={3} style={{ margin: 0 }}>竞品关系</Typography.Title>
         <Space>
           <Select placeholder="筛选车型" allowClear style={{ width: 160 }}
             options={cars.map((c) => ({ label: c.name, value: c.id }))}

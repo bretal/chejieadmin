@@ -50,7 +50,7 @@ export default function CarColorPage() {
     { title: 'ID', dataIndex: 'id', width: 50 },
     { title: '车型', dataIndex: 'carId', width: 120, render: (v: number) => getCarName(v) },
     { title: '颜色名', dataIndex: 'colorName', width: 100 },
-    { title: '色值', dataIndex: 'hexValue', width: 100, render: (v: string) => <Space><div style={{ width: 18, height: 18, borderRadius: 4, background: v, border: '1px solid rgba(255,255,255,0.2)' }} /><code style={{ color: '#a0a0b0' }}>{v}</code></Space> },
+    { title: '色值', dataIndex: 'hexValue', width: 100, render: (v: string) => <Space><div style={{ width: 18, height: 18, borderRadius: 4, background: v, border: '1px solid rgba(255,255,255,0.45)' }} /><code style={{ color: 'rgba(31,42,68,0.68)' }}>{v}</code></Space> },
     { title: '金属漆', dataIndex: 'isMetallic', width: 70, render: (v: string) => v === '1' ? <Tag color="gold">是</Tag> : <Tag>否</Tag> },
     { title: '选装价(万)', dataIndex: 'price', width: 100 },
     { title: '排序', dataIndex: 'sortOrder', width: 60 },
@@ -69,7 +69,7 @@ export default function CarColorPage() {
   return (
     <div>
       <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 16 }}>
-        <Typography.Title level={3} style={{ color: '#e8e8ed', margin: 0 }}>颜色管理</Typography.Title>
+        <Typography.Title level={3} style={{ margin: 0 }}>颜色管理</Typography.Title>
         <Space>
           <Select placeholder="筛选车型" allowClear style={{ width: 160 }}
             options={cars.map((c) => ({ label: c.name, value: c.id }))}

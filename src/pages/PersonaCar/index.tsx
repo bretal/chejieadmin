@@ -68,7 +68,7 @@ export default function PersonaCarPage() {
   return (
     <div>
       <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 16 }}>
-        <Typography.Title level={3} style={{ color: '#e8e8ed', margin: 0 }}>画像推荐</Typography.Title>
+        <Typography.Title level={3} style={{ margin: 0 }}>画像推荐</Typography.Title>
         <Space>
           <Select placeholder="筛选画像" allowClear style={{ width: 180 }}
             options={personaKeyOpts}

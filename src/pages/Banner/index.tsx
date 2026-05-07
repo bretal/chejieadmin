@@ -60,7 +60,7 @@ export default function BannerPage() {
   return (
     <div>
       <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 16 }}>
-        <Typography.Title level={3} style={{ color: '#e8e8ed', margin: 0 }}>Banner管理</Typography.Title>
+        <Typography.Title level={3} style={{ margin: 0 }}>Banner管理</Typography.Title>
         <Button type="primary" icon={<PlusOutlined />} onClick={openAdd}>新增Banner</Button>
       </div>
       <Table rowKey="id" columns={columns} dataSource={data} loading={loading}

@@ -97,7 +97,7 @@ export default function CarPage() {
   return (
     <div>
       <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 16 }}>
-        <Typography.Title level={3} style={{ color: '#e8e8ed', margin: 0 }}>车型管理</Typography.Title>
+        <Typography.Title level={3} style={{ margin: 0 }}>车型管理</Typography.Title>
         <Space>
           <Input.Search placeholder="搜索车型" allowClear style={{ width: 200 }}
             onSearch={(v) => { setSearchName(v); setPage(1); fetch(1, v); }} />

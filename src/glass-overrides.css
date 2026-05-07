@@ -1,0 +1,224 @@
+/* Project-level patches for Ant Design glass preview styles.
+   Keep official glassTheme.ts untouched; only fix internal popup panels here. */
+
+:root {
+  --glass-panel-bg: rgba(255, 255, 255, 0.18);
+  --glass-panel-bg-strong: rgba(255, 255, 255, 0.34);
+  --glass-panel-border: rgba(255, 255, 255, 0.42);
+  --glass-button-bg: rgba(255, 255, 255, 0.16);
+  --glass-button-bg-hover: rgba(255, 255, 255, 0.28);
+  --glass-button-bg-active: rgba(255, 255, 255, 0.22);
+  --glass-primary-bg:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.34), transparent 38%),
+    linear-gradient(135deg, rgba(71, 177, 255, 0.84), rgba(22, 119, 255, 0.82));
+  --glass-primary-bg-hover:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.42), transparent 36%),
+    linear-gradient(135deg, rgba(90, 190, 255, 0.92), rgba(22, 119, 255, 0.9));
+  --glass-danger-bg: color-mix(in srgb, #ff4d4f 16%, transparent);
+  --glass-danger-bg-hover: color-mix(in srgb, #ff4d4f 26%, transparent);
+  --glass-panel-shadow:
+    0 22px 64px rgba(28, 75, 128, 0.18),
+    inset 0 0 5px 2px rgba(255, 255, 255, 0.28),
+    inset 0 8px 3px rgba(255, 255, 255, 0.16);
+}
+
+.ant-btn {
+  border-color: var(--glass-panel-border) !important;
+  background: var(--glass-button-bg) !important;
+  box-shadow:
+    inset 0 0 5px 1px rgba(255, 255, 255, 0.28),
+    0 8px 24px rgba(28, 75, 128, 0.08);
+  -webkit-backdrop-filter: blur(14px) saturate(135%);
+  backdrop-filter: blur(14px) saturate(135%);
+}
+
+.ant-btn:hover,
+.ant-btn:focus-visible {
+  border-color: rgba(255, 255, 255, 0.64) !important;
+  background: var(--glass-button-bg-hover) !important;
+  box-shadow:
+    inset 0 0 6px 2px rgba(255, 255, 255, 0.34),
+    0 12px 30px rgba(28, 75, 128, 0.14);
+}
+
+.ant-btn:active {
+  background: var(--glass-button-bg-active) !important;
+  box-shadow: inset 0 0 5px 1px rgba(255, 255, 255, 0.24);
+}
+
+.ant-btn-primary {
+  border-color: rgba(123, 203, 255, 0.86) !important;
+  border-radius: 12px;
+  background: var(--glass-primary-bg) !important;
+  color: #fff !important;
+  text-shadow: 0 1px 2px rgba(0, 53, 128, 0.26);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.58),
+    inset 0 -8px 16px rgba(0, 83, 180, 0.18),
+    0 6px 16px rgba(22, 119, 255, 0.28),
+    0 0 0 1px rgba(255, 255, 255, 0.22);
+  -webkit-backdrop-filter: blur(16px) saturate(150%);
+  backdrop-filter: blur(16px) saturate(150%);
+}
+
+.ant-btn-primary:hover,
+.ant-btn-primary:focus-visible {
+  border-color: rgba(160, 221, 255, 0.95) !important;
+  background: var(--glass-primary-bg-hover) !important;
+  color: #fff !important;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.68),
+    inset 0 -8px 16px rgba(0, 83, 180, 0.14),
+    0 8px 20px rgba(22, 119, 255, 0.36),
+    0 0 0 1px rgba(255, 255, 255, 0.3);
+  transform: translateY(-1px);
+}
+
+.ant-btn-primary:active {
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.24), transparent 42%),
+    linear-gradient(135deg, rgba(36, 151, 255, 0.88), rgba(9, 88, 217, 0.9)) !important;
+  box-shadow:
+    inset 0 2px 8px rgba(0, 59, 138, 0.22),
+    0 4px 12px rgba(22, 119, 255, 0.22);
+  transform: translateY(0);
+}
+
+.ant-btn-dangerous:not(.ant-btn-primary) {
+  border-color: color-mix(in srgb, #ff4d4f 38%, rgba(255, 255, 255, 0.7)) !important;
+  background: var(--glass-danger-bg) !important;
+  color: #d9363e !important;
+}
+
+.ant-btn-dangerous:not(.ant-btn-primary):hover,
+.ant-btn-dangerous:not(.ant-btn-primary):focus-visible {
+  background: var(--glass-danger-bg-hover) !important;
+  color: #d9363e !important;
+}
+
+.ant-btn-primary.ant-btn-dangerous {
+  border-color: color-mix(in srgb, #ff4d4f 42%, rgba(255, 255, 255, 0.72)) !important;
+  background: color-mix(in srgb, #ff4d4f 58%, transparent) !important;
+  color: #fff !important;
+}
+
+.ant-btn-primary.ant-btn-dangerous:hover,
+.ant-btn-primary.ant-btn-dangerous:focus-visible {
+  background: color-mix(in srgb, #ff4d4f 72%, transparent) !important;
+}
+
+.ant-btn-text,
+.ant-btn-link {
+  border-color: transparent !important;
+  background: transparent !important;
+  box-shadow: none;
+}
+
+.ant-btn-text:hover,
+.ant-btn-link:hover,
+.ant-btn-text:focus-visible,
+.ant-btn-link:focus-visible {
+  border-color: var(--glass-panel-border) !important;
+  background: var(--glass-button-bg-hover) !important;
+  box-shadow: inset 0 0 5px 1px rgba(255, 255, 255, 0.28);
+}
+
+.ant-btn[disabled],
+.ant-btn-disabled {
+  border-color: rgba(255, 255, 255, 0.24) !important;
+  background: rgba(255, 255, 255, 0.1) !important;
+  box-shadow: none;
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+}
+
+.ant-modal-mask {
+  background: rgba(238, 247, 255, 0.24) !important;
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+}
+
+.ant-modal .ant-modal-content {
+  border: 1px solid var(--glass-panel-border);
+  background: rgba(255, 255, 255, 0.2) !important;
+  box-shadow: var(--glass-panel-shadow);
+  -webkit-backdrop-filter: blur(18px) saturate(130%);
+  backdrop-filter: blur(18px) saturate(130%);
+}
+
+.ant-modal .ant-modal-header,
+.ant-modal .ant-modal-body,
+.ant-modal .ant-modal-footer {
+  background: transparent !important;
+}
+
+.ant-picker-dropdown .ant-picker-panel-container,
+.ant-select-dropdown,
+.ant-dropdown .ant-dropdown-menu,
+.ant-popover .ant-popover-inner,
+.ant-color-picker-dropdown .ant-color-picker-inner {
+  border: 1px solid var(--glass-panel-border);
+  background: var(--glass-panel-bg) !important;
+  box-shadow: var(--glass-panel-shadow);
+  -webkit-backdrop-filter: blur(18px) saturate(140%);
+  backdrop-filter: blur(18px) saturate(140%);
+}
+
+.ant-picker-dropdown {
+  background: transparent !important;
+}
+
+.ant-picker-dropdown .ant-picker-panel,
+.ant-picker-dropdown .ant-picker-date-panel,
+.ant-picker-dropdown .ant-picker-header,
+.ant-picker-dropdown .ant-picker-body,
+.ant-picker-dropdown .ant-picker-footer,
+.ant-picker-dropdown .ant-picker-content,
+.ant-picker-dropdown .ant-picker-content thead,
+.ant-picker-dropdown .ant-picker-content tbody,
+.ant-picker-dropdown .ant-picker-content tr,
+.ant-picker-dropdown .ant-picker-content th,
+.ant-picker-dropdown .ant-picker-content td,
+.ant-picker-dropdown .ant-picker-cell,
+.ant-picker-dropdown .ant-picker-cell::before,
+.ant-picker-dropdown .ant-picker-cell-inner,
+.ant-select-dropdown .ant-select-item,
+.ant-dropdown .ant-dropdown-menu-item,
+.ant-dropdown .ant-dropdown-menu-submenu-title {
+  background: transparent !important;
+}
+
+.ant-picker-dropdown .ant-picker-header,
+.ant-picker-dropdown .ant-picker-footer {
+  border-color: color-mix(in srgb, #4d7298 14%, transparent);
+}
+
+.ant-picker-dropdown .ant-picker-cell-in-view.ant-picker-cell-today .ant-picker-cell-inner::before {
+  border-color: #1677ff;
+}
+
+.ant-picker-dropdown .ant-picker-cell-in-view.ant-picker-cell-selected .ant-picker-cell-inner,
+.ant-picker-dropdown .ant-picker-cell-in-view.ant-picker-cell-range-start .ant-picker-cell-inner,
+.ant-picker-dropdown .ant-picker-cell-in-view.ant-picker-cell-range-end .ant-picker-cell-inner {
+  background: #1677ff !important;
+}
+
+.ant-picker-dropdown .ant-picker-cell:hover .ant-picker-cell-inner,
+.ant-select-dropdown .ant-select-item-option-active,
+.ant-select-dropdown .ant-select-item-option-selected,
+.ant-dropdown .ant-dropdown-menu-item:hover,
+.ant-dropdown .ant-dropdown-menu-submenu-title:hover {
+  background: var(--glass-panel-bg-strong) !important;
+}
+
+.ant-select-dropdown .ant-select-item,
+.ant-dropdown .ant-dropdown-menu-item,
+.ant-dropdown .ant-dropdown-menu-submenu-title,
+.ant-popover .ant-popover-inner-content {
+  color: #1f2a44;
+}
+
+.ant-popover .ant-popover-arrow::before,
+.ant-tooltip .ant-tooltip-arrow::before {
+  background: var(--glass-panel-bg) !important;
+}

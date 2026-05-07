@@ -1,5 +1,23 @@
 import { useEffect, useState, useCallback } from 'react';
-import { Table, Button, Modal, Form, Input, InputNumber, Space, Popconfirm, Typography, message, Select } from 'antd';
+import {
+  Alert,
+  Button,
+  ColorPicker,
+  DatePicker,
+  Form,
+  Input,
+  InputNumber,
+  message,
+  Modal,
+  Popconfirm,
+  Radio,
+  Segmented,
+  Select,
+  Space,
+  Switch,
+  Table,
+  Typography,
+} from 'antd';
 import { PlusOutlined, EditOutlined, DeleteOutlined } from '@ant-design/icons';
 import type { Brand } from '../../api/brand';
 import * as api from '../../api/brand';
@@ -85,7 +103,7 @@ export default function BrandPage() {
   return (
     <div>
       <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 16 }}>
-        <Typography.Title level={3} style={{ color: '#e8e8ed', margin: 0 }}>品牌管理</Typography.Title>
+        <Typography.Title level={3} style={{ margin: 0 }}>品牌管理</Typography.Title>
         <Space>
           <Input.Search placeholder="搜索品牌名" allowClear style={{ width: 200 }}
             onSearch={(v) => { setSearchName(v); setPage(1); fetch(1, v); }} />
@@ -94,7 +112,6 @@ export default function BrandPage() {
       </div>
       <Table rowKey="id" columns={columns} dataSource={data} loading={loading}
         pagination={{ current: page, total, pageSize: 10, onChange: (p) => { setPage(p); fetch(p); } }}
-        style={{ background: 'rgba(255,255,255,0.03)' }}
         locale={{ emptyText: '暂无数据' }} />
       <Modal title={editing ? '编辑品牌' : '新增品牌'} open={modalOpen} onOk={handleOk} onCancel={() => setModalOpen(false)} width={500}>
         <Form form={form} layout="vertical">
@@ -106,6 +123,26 @@ export default function BrandPage() {
           <Form.Item name="sortOrder" label="排序"><InputNumber min={0} /></Form.Item>
           <Form.Item name="status" label="状态">
             <Select options={[{ label: '启用', value: '1' }, { label: '停用', value: '0' }]} />
+          </Form.Item>
+          <Alert message="以下组件仅用于预览官方玻璃风格，不会随表单提交" type="info" showIcon />
+          <Form.Item label="发布日期预览">
+            <DatePicker style={{ width: '100%' }} />
+          </Form.Item>
+          <Form.Item label="品牌类型预览">
+            <Radio.Group defaultValue="new-energy">
+              <Radio.Button value="new-energy">新能源</Radio.Button>
+              <Radio.Button value="fuel">燃油</Radio.Button>
+              <Radio.Button value="luxury">豪华</Radio.Button>
+            </Radio.Group>
+          </Form.Item>
+          <Form.Item label="展示开关预览">
+            <Switch checkedChildren="展示" unCheckedChildren="隐藏" defaultChecked />
+          </Form.Item>
+          <Form.Item label="周期切换预览">
+            <Segmented options={['每日', '每周', '每月']} defaultValue="每日" />
+          </Form.Item>
+          <Form.Item label="品牌色预览">
+            <ColorPicker defaultValue="#1677ff" />
           </Form.Item>
         </Form>
       </Modal>
