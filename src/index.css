@@ -12,9 +12,34 @@ html, body, #root {
 body {
   font-family: 'Inter', 'SF Pro Display', -apple-system, BlinkMacSystemFont, sans-serif;
   -webkit-font-smoothing: antialiased;
-  background: linear-gradient(135deg, #0a0a1a 0%, #1a1040 30%, #0d1b3e 70%, #0a0a1a 100%);
+  background: linear-gradient(135deg, #1a0540 0%, #2d1b69 25%, #1e3a6e 50%, #7b1fa2 75%, #4a148c 100%);
   background-attachment: fixed;
   color: #e8e8ed;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Decorative glass background blobs */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+
+body::before {
+  background:
+    radial-gradient(ellipse 600px 500px at 15% 20%, rgba(138, 43, 226, 0.35), transparent),
+    radial-gradient(ellipse 500px 400px at 85% 75%, rgba(63, 81, 181, 0.3), transparent),
+    radial-gradient(ellipse 400px 500px at 80% 10%, rgba(233, 30, 99, 0.2), transparent),
+    radial-gradient(ellipse 300px 350px at 50% 55%, rgba(156, 39, 176, 0.25), transparent),
+    radial-gradient(ellipse 450px 300px at 30% 80%, rgba(33, 150, 243, 0.2), transparent);
+}
+
+#root {
+  position: relative;
+  z-index: 1;
 }
 
 /* Scrollbar */

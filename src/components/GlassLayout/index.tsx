@@ -30,41 +30,23 @@ const menuItems = [
   { key: '/banner', icon: <PictureFilled />, label: 'Banner管理' },
 ];
 
-const siderStyle: React.CSSProperties = {
-  background: 'rgba(20, 20, 50, 0.35)',
-  backdropFilter: 'blur(24px)',
-  borderRight: '1px solid rgba(255, 255, 255, 0.08)',
-};
-
-const headerStyle: React.CSSProperties = {
-  background: 'rgba(20, 20, 50, 0.25)',
-  backdropFilter: 'blur(20px)',
-  borderBottom: '1px solid rgba(255, 255, 255, 0.08)',
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'space-between',
-  padding: '0 24px',
-};
-
-const contentStyle: React.CSSProperties = {
-  padding: 24,
-  overflow: 'auto',
-  height: 'calc(100vh - 64px)',
-};
-
 export default function GlassLayout() {
   const [collapsed, setCollapsed] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
 
   return (
-    <Layout style={{ height: '100vh' }}>
+    <Layout style={{ height: '100vh', background: 'transparent' }}>
       <Sider
         trigger={null}
         collapsible
         collapsed={collapsed}
         width={200}
-        style={siderStyle}
+        style={{
+          background: 'rgba(255, 255, 255, 0.04)',
+          backdropFilter: 'blur(16px)',
+          borderRight: '1px solid rgba(255, 255, 255, 0.08)',
+        }}
       >
         <div style={{
           height: 64,
@@ -95,8 +77,16 @@ export default function GlassLayout() {
           }}
         />
       </Sider>
-      <Layout>
-        <Header style={headerStyle}>
+      <Layout style={{ background: 'transparent' }}>
+        <Header style={{
+          background: 'rgba(255, 255, 255, 0.04)',
+          backdropFilter: 'blur(16px)',
+          borderBottom: '1px solid rgba(255, 255, 255, 0.08)',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          padding: '0 24px',
+        }}>
           <Button
             type="text"
             icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
@@ -107,7 +97,11 @@ export default function GlassLayout() {
             车界数据管理平台
           </Typography.Text>
         </Header>
-        <Content style={contentStyle}>
+        <Content style={{
+          padding: 24,
+          overflow: 'auto',
+          height: 'calc(100vh - 64px)',
+        }}>
           <Outlet />
         </Content>
       </Layout>
