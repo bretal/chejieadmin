@@ -1,5 +1,5 @@
 import { useEffect, useState, useCallback } from 'react';
-import { Table, Button, Modal, Form, Input, InputNumber, Space, Popconfirm, Typography, message, Select, Tag } from 'antd';
+import { Table, Button, Modal, Form, Input, InputNumber, Space, Popconfirm, Typography, message, Select, Tag, ColorPicker } from 'antd';
 import { PlusOutlined, EditOutlined, DeleteOutlined } from '@ant-design/icons';
 import type { CarColor } from '../../api/carColor';
 import * as api from '../../api/carColor';
@@ -32,8 +32,13 @@ export default function CarColorPage() {
 
   const handleOk = async () => {
     const values = await form.validateFields();
-    if (editing) await api.updateColor({ ...values, id: editing.id });
-    else await api.addColor(values);
+    // ColorPicker returns Color object, convert to hex string
+    const hexValue = typeof values.hexValue === 'string'
+      ? values.hexValue
+      : values.hexValue?.toHexString?.() || '#000000';
+    const payload = { ...values, hexValue };
+    if (editing) await api.updateColor({ ...payload, id: editing.id });
+    else await api.addColor(payload);
     setModalOpen(false); message.success(editing ? '更新成功' : '添加成功'); fetch();
   };
 
@@ -81,7 +86,9 @@ export default function CarColorPage() {
             <Select options={cars.map((c) => ({ label: c.name, value: c.id }))} placeholder="选择车型" />
           </Form.Item>
           <Form.Item name="colorName" label="颜色名称" rules={[{ required: true }]}><Input placeholder="如：珍珠白" /></Form.Item>
-          <Form.Item name="hexValue" label="色值" rules={[{ required: true }]}><Input placeholder="#f5f5f0" /></Form.Item>
+          <Form.Item name="hexValue" label="颜色" rules={[{ required: true }]} getValueFromEvent={(color) => color?.toHexString?.() || color}>
+            <ColorPicker format="hex" showText />
+          </Form.Item>
           <Form.Item name="isMetallic" label="是否金属漆">
             <Select options={[{ label: '否', value: '0' }, { label: '是', value: '1' }]} />
           </Form.Item>
