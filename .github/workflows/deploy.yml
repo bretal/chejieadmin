@@ -1,0 +1,69 @@
+# Push 到 GitHub 后，由 GitHub Actions 通过 SSH 连到你的 Ubuntu 服务器，
+# 在指定目录执行 git 更新 + docker compose 重建并后台启动。
+#
+# 若前后端是两个 GitHub 仓库：推前端只会跑本仓库的 workflow；推后端时要在后端仓库
+# 也放一份 deploy.yml（或改用同一 monorepo / 服务器上的统一 deploy 脚本），否则会只更新一侧。
+#
+# 需在仓库 Settings → Secrets and variables → Actions 中配置：
+#   DEPLOY_HOST           服务器公网 IP 或域名
+#   DEPLOY_USER           SSH 登录用户（建议专用部署账号）
+#   DEPLOY_SSH_KEY        该用户对应的私钥全文（-----BEGIN ... PRIVATE KEY-----）
+#   DEPLOY_FRONTEND_PATH  本仓库在服务器上的绝对路径，例如 /opt/chejieadmin
+#   DEPLOY_BACKEND_PATH   后端仓库在服务器上的绝对路径；仅部署前端时填 SKIP 或不配置此 Secret
+#
+# 服务器需已：安装 Docker / Docker Compose 插件、在对应目录能 git pull、用户能执行 docker compose。
+
+name: Deploy to VPS
+
+on:
+  push:
+    branches: [main, master]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: deploy-vps
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: SSH — git pull + docker compose
+        uses: appleboy/ssh-action@v1.2.2
+        with:
+          host: ${{ secrets.DEPLOY_HOST }}
+          username: ${{ secrets.DEPLOY_USER }}
+          key: ${{ secrets.DEPLOY_SSH_KEY }}
+          script_stop: true
+          script: |
+            set -euo pipefail
+            BRANCH="${{ github.ref_name }}"
+            FRONT="${{ secrets.DEPLOY_FRONTEND_PATH }}"
+            BACK="${{ secrets.DEPLOY_BACKEND_PATH }}"
+
+            if [ -z "$FRONT" ] || [ "$FRONT" = "SKIP" ] || [ "$FRONT" = "skip" ]; then
+              echo "Set Actions secret DEPLOY_FRONTEND_PATH to this repo's path on the server (absolute path)." >&2
+              exit 1
+            fi
+
+            deploy_one() {
+              local dir="$1"
+              case "${dir:-}" in
+                ""|"SKIP"|"skip") return 0 ;;
+              esac
+              if [ ! -d "$dir" ]; then
+                echo "Directory does not exist: $dir" >&2
+                exit 1
+              fi
+              cd "$dir"
+              git fetch origin "$BRANCH"
+              git checkout "$BRANCH"
+              git reset --hard "origin/$BRANCH"
+              docker compose up -d --build
+            }
+
+            deploy_one "$FRONT"
+            deploy_one "$BACK"
