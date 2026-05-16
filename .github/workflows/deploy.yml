@@ -37,7 +37,7 @@ jobs:
           host: ${{ secrets.DEPLOY_HOST }}
           username: ${{ secrets.DEPLOY_USER }}
           key: ${{ secrets.DEPLOY_SSH_KEY }}
-          script_stop: true
+          # 脚本里已用 set -euo pipefail，任一步失败即退出（替代已移除的 script_stop）
           script: |
             set -euo pipefail
             BRANCH="${{ github.ref_name }}"
