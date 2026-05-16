@@ -28,7 +28,7 @@ export default function Dashboard() {
   const cards = [
     { title: '品牌数', value: stats.brands, icon: <IdcardOutlined />, color: '#6366f1' },
     { title: '车型数', value: stats.cars, icon: <CarOutlined />, color: '#10b981' },
-    { title: '配置数github部署', value: stats.configs, icon: <SettingOutlined />, color: '#f59e0b' },
+    { title: '配置数', value: stats.configs, icon: <SettingOutlined />, color: '#f59e0b' },
     { title: 'Banner', value: stats.banners, icon: <PictureFilled />, color: '#ef4444' },
   ];
 
