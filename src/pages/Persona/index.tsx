@@ -70,7 +70,7 @@ export default function PersonaPage() {
       <Table rowKey="id" columns={columns} dataSource={data} loading={loading}
         pagination={{ current: page, total, pageSize: 10, onChange: (p) => { setPage(p); fetch(p); } }}
         locale={{ emptyText: '暂无数据' }} />
-      <Modal title={editing ? '编辑画像' : '新增画像'} open={modalOpen} onOk={handleOk} onCancel={() => setModalOpen(false)} width={500}>
+      <Modal title={editing ? '编辑画像' : '新增画像'} open={modalOpen} onOk={handleOk} onCancel={() => setModalOpen(false)} width={640}>
         <Form form={form} layout="vertical">
           <Form.Item name="personaKey" label="画像标识" rules={[{ required: true }]}>
             <Select options={personaKeyOpts} placeholder="选择画像标识" />

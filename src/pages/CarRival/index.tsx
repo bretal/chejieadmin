@@ -74,7 +74,7 @@ export default function CarRivalPage() {
       <Table rowKey="id" columns={columns} dataSource={data} loading={loading}
         pagination={{ current: page, total, pageSize: 10, onChange: (p) => { setPage(p); fetch(p); } }}
         locale={{ emptyText: '暂无数据' }} />
-      <Modal title={editing ? '编辑竞品' : '新增竞品'} open={modalOpen} onOk={handleOk} onCancel={() => setModalOpen(false)} width={480}>
+      <Modal title={editing ? '编辑竞品' : '新增竞品'} open={modalOpen} onOk={handleOk} onCancel={() => setModalOpen(false)} width={600}>
         <Form form={form} layout="vertical">
           <Form.Item name="carId" label="车型" rules={[{ required: true }]}>
             <Select options={cars.map((c) => ({ label: c.name, value: c.id }))} placeholder="选择车型" />

@@ -22,6 +22,21 @@ import { PlusOutlined, EditOutlined, DeleteOutlined } from '@ant-design/icons';
 import type { Brand } from '../../api/brand';
 import * as api from '../../api/brand';
 
+const STATUS_OPTIONS = [
+  { label: '启用', value: '1' },
+  { label: '停用', value: '0' },
+] as const;
+
+const STATUS_COLOR: Record<string, string> = {
+  '1': '#10b981',
+  '0': '#ef4444',
+};
+
+const renderStatusOption = (value: string) => {
+  const label = STATUS_OPTIONS.find((o) => o.value === value)?.label ?? value;
+  return <span style={{ color: STATUS_COLOR[value], fontWeight: 500 }}>{label}</span>;
+};
+
 export default function BrandPage() {
   const [data, setData] = useState<Brand[]>([]);
   const [total, setTotal] = useState(0);
@@ -85,7 +100,7 @@ export default function BrandPage() {
     { title: '排序', dataIndex: 'sortOrder', width: 60 },
     {
       title: '状态', dataIndex: 'status', width: 70,
-      render: (v: string) => v === '1' ? <span style={{ color: '#10b981' }}>启用</span> : <span style={{ color: '#ef4444' }}>停用</span>,
+      render: (v: string) => renderStatusOption(v),
     },
     {
       title: '操作', key: 'action', width: 160,
@@ -113,37 +128,22 @@ export default function BrandPage() {
       <Table rowKey="id" columns={columns} dataSource={data} loading={loading}
         pagination={{ current: page, total, pageSize: 10, onChange: (p) => { setPage(p); fetch(p); } }}
         locale={{ emptyText: '暂无数据' }} />
-      <Modal title={editing ? '编辑品牌' : '新增品牌'} open={modalOpen} onOk={handleOk} onCancel={() => setModalOpen(false)} width={500}>
+      <Modal title={editing ? '编辑品牌' : '新增品牌'} open={modalOpen} onOk={handleOk} onCancel={() => setModalOpen(false)} width={640}>
         <Form form={form} layout="vertical">
           <Form.Item name="name" label="品牌名称" rules={[{ required: true }]}><Input /></Form.Item>
+          <Form.Item name="status" label="状态">
+            <Select
+              options={[...STATUS_OPTIONS]}
+              labelRender={({ value }) => renderStatusOption(String(value))}
+              optionRender={(option) => renderStatusOption(String(option.value))}
+            />
+          </Form.Item>
           <Form.Item name="logo" label="Logo URL"><Input /></Form.Item>
           <Form.Item name="country" label="国家"><Input /></Form.Item>
           <Form.Item name="firstLetter" label="首字母"><Input maxLength={1} /></Form.Item>
           <Form.Item name="description" label="简介"><Input.TextArea rows={2} /></Form.Item>
           <Form.Item name="sortOrder" label="排序"><InputNumber min={0} /></Form.Item>
-          <Form.Item name="status" label="状态">
-            <Select options={[{ label: '启用', value: '1' }, { label: '停用', value: '0' }]} />
-          </Form.Item>
-          <Alert message="以下组件仅用于预览官方玻璃风格，不会随表单提交" type="info" showIcon />
-          <Form.Item label="发布日期预览">
-            <DatePicker style={{ width: '100%' }} />
-          </Form.Item>
-          <Form.Item label="品牌类型预览">
-            <Radio.Group defaultValue="new-energy">
-              <Radio.Button value="new-energy">新能源</Radio.Button>
-              <Radio.Button value="fuel">燃油</Radio.Button>
-              <Radio.Button value="luxury">豪华</Radio.Button>
-            </Radio.Group>
-          </Form.Item>
-          <Form.Item label="展示开关预览">
-            <Switch checkedChildren="展示" unCheckedChildren="隐藏" defaultChecked />
-          </Form.Item>
-          <Form.Item label="周期切换预览">
-            <Segmented options={['每日', '每周', '每月']} defaultValue="每日" />
-          </Form.Item>
-          <Form.Item label="品牌色预览">
-            <ColorPicker defaultValue="#1677ff" />
-          </Form.Item>
+         
         </Form>
       </Modal>
     </div>

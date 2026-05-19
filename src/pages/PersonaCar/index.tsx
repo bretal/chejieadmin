@@ -79,7 +79,7 @@ export default function PersonaCarPage() {
       <Table rowKey="id" columns={columns} dataSource={data} loading={loading}
         pagination={{ current: page, total, pageSize: 10, onChange: (p) => { setPage(p); fetch(p); } }}
         locale={{ emptyText: '暂无数据' }} />
-      <Modal title={editing ? '编辑推荐' : '新增推荐'} open={modalOpen} onOk={handleOk} onCancel={() => setModalOpen(false)} width={480}>
+      <Modal title={editing ? '编辑推荐' : '新增推荐'} open={modalOpen} onOk={handleOk} onCancel={() => setModalOpen(false)} width={600}>
         <Form form={form} layout="vertical">
           <Form.Item name="personaKey" label="画像标识" rules={[{ required: true }]}>
             <Select options={personaKeyOpts} placeholder="选择画像" />

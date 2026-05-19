@@ -80,7 +80,7 @@ export default function CarColorPage() {
       <Table rowKey="id" columns={columns} dataSource={data} loading={loading}
         pagination={{ current: page, total, pageSize: 10, onChange: (p) => { setPage(p); fetch(p); } }}
         locale={{ emptyText: '暂无数据' }} />
-      <Modal title={editing ? '编辑颜色' : '新增颜色'} open={modalOpen} onOk={handleOk} onCancel={() => setModalOpen(false)} width={420}>
+      <Modal title={editing ? '编辑颜色' : '新增颜色'} open={modalOpen} onOk={handleOk} onCancel={() => setModalOpen(false)} width={560}>
         <Form form={form} layout="vertical">
           <Form.Item name="carId" label="所属车型" rules={[{ required: true }]}>
             <Select options={cars.map((c) => ({ label: c.name, value: c.id }))} placeholder="选择车型" />

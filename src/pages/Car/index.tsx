@@ -107,7 +107,7 @@ export default function CarPage() {
       <Table rowKey="id" columns={columns} dataSource={data} loading={loading}
         pagination={{ current: page, total, pageSize: 10, onChange: (p) => { setPage(p); fetch(p); } }}
         locale={{ emptyText: '暂无数据' }} />
-      <Modal title={editing ? '编辑车型' : '新增车型'} open={modalOpen} onOk={handleOk} onCancel={() => setModalOpen(false)} width={640}>
+      <Modal title={editing ? '编辑车型' : '新增车型'} open={modalOpen} onOk={handleOk} onCancel={() => setModalOpen(false)} width={780}>
         <Form form={form} layout="vertical">
           <Form.Item name="brandId" label="品牌" rules={[{ required: true }]}>
             <Select options={brands.map((b) => ({ label: b.name, value: b.id }))} placeholder="选择品牌" />

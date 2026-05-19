@@ -66,7 +66,7 @@ export default function BannerPage() {
       <Table rowKey="id" columns={columns} dataSource={data} loading={loading}
         pagination={{ current: page, total, pageSize: 10, onChange: (p) => { setPage(p); fetch(p); } }}
         locale={{ emptyText: '暂无数据' }} />
-      <Modal title={editing ? '编辑Banner' : '新增Banner'} open={modalOpen} onOk={handleOk} onCancel={() => setModalOpen(false)} width={520}>
+      <Modal title={editing ? '编辑Banner' : '新增Banner'} open={modalOpen} onOk={handleOk} onCancel={() => setModalOpen(false)} width={680}>
         <Form form={form} layout="vertical">
           <Form.Item name="title" label="标题" rules={[{ required: true }]}><Input /></Form.Item>
           <Form.Item name="imageUrl" label="图片URL" rules={[{ required: true }]}><Input placeholder="https://..." /></Form.Item>

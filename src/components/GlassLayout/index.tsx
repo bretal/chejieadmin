@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Outlet, useNavigate, useLocation } from 'react-router-dom';
-import { Layout, Menu, Button, Typography } from 'antd';
+import { App, Layout, Menu, Button, Typography } from 'antd';
 import {
   DashboardOutlined,
   CarOutlined,
@@ -13,7 +13,12 @@ import {
   PictureFilled,
   MenuFoldOutlined,
   MenuUnfoldOutlined,
+  LogoutOutlined,
+  AppstoreOutlined,
+  RobotOutlined,
 } from '@ant-design/icons';
+import { clearToken, getToken, getClientId } from '../../auth/token';
+import { logout } from '../../api/auth';
 
 const { Header, Sider, Content } = Layout;
 
@@ -28,12 +33,37 @@ const menuItems = [
   { key: '/persona', icon: <UserOutlined />, label: '用户画像' },
   { key: '/persona-car', icon: <SwapOutlined />, label: '画像推荐' },
   { key: '/banner', icon: <PictureFilled />, label: 'Banner管理' },
+  { key: '/apps/next', icon: <AppstoreOutlined />, label: 'Next 子应用' },
+  { key: '/rag', icon: <RobotOutlined />, label: 'RAG 助手' },
 ];
 
 export default function GlassLayout() {
+  const { modal } = App.useApp();
   const [collapsed, setCollapsed] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
+
+  const handleLogout = () => {
+    modal.confirm({
+      title: '退出登录',
+      content: '确定要退出当前账号吗？',
+      okText: '退出',
+      cancelText: '取消',
+      onOk: async () => {
+        try {
+          const token = getToken();
+          const clientId = getClientId();
+          if (token && clientId) {
+            await logout(token, clientId);
+          }
+        } catch {
+          // 即使后端登出失败也清除本地状态
+        }
+        clearToken();
+        navigate('/login', { replace: true });
+      },
+    });
+  };
 
   const shellSurface = {
     background: 'color-mix(in srgb, #ffffff 34%, transparent)',
@@ -74,7 +104,15 @@ export default function GlassLayout() {
         </div>
         <Menu
           mode="inline"
-          selectedKeys={[location.pathname]}
+          selectedKeys={[
+            menuItems
+              .filter((item) =>
+                item.key === '/'
+                  ? location.pathname === '/'
+                  : location.pathname === item.key || location.pathname.startsWith(`${item.key}/`),
+              )
+              .sort((a, b) => b.key.length - a.key.length)[0]?.key ?? '/',
+          ]}
           items={menuItems}
           onClick={({ key }) => navigate(key)}
           style={{
@@ -101,9 +139,14 @@ export default function GlassLayout() {
             onClick={() => setCollapsed(!collapsed)}
             style={{ color: '#1f2a44', fontSize: 16 }}
           />
-          <Typography.Text style={{ color: 'rgba(31, 42, 68, 0.62)', fontSize: 13 }}>
-            车界数据管理平台
-          </Typography.Text>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+            <Typography.Text style={{ color: 'rgba(31, 42, 68, 0.62)', fontSize: 13 }}>
+              车界数据管理平台
+            </Typography.Text>
+            <Button type="text" icon={<LogoutOutlined />} onClick={handleLogout} style={{ color: '#1f2a44' }}>
+              退出
+            </Button>
+          </div>
         </Header>
         <Content style={{
           marginTop: 16,

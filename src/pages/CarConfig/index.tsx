@@ -89,7 +89,7 @@ export default function CarConfigPage() {
       <Table rowKey="id" columns={columns} dataSource={data} loading={loading}
         pagination={{ current: page, total, pageSize: 10, onChange: (p) => { setPage(p); fetch(p); } }}
         scroll={{ x: 1000 }} locale={{ emptyText: '暂无数据' }} />
-      <Modal title={editing ? '编辑配置' : '新增配置'} open={modalOpen} onOk={handleOk} onCancel={() => setModalOpen(false)} width={640}>
+      <Modal title={editing ? '编辑配置' : '新增配置'} open={modalOpen} onOk={handleOk} onCancel={() => setModalOpen(false)} width={780}>
         <Form form={form} layout="vertical">
           <Form.Item name="carId" label="所属车型" rules={[{ required: true }]}>
             <Select options={cars.map((c) => ({ label: c.name, value: c.id }))} placeholder="选择车型" />

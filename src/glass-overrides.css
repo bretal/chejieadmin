@@ -1,155 +1,81 @@
-/* Project-level patches for Ant Design glass preview styles.
-   Keep official glassTheme.ts untouched; only fix internal popup panels here. */
+/* 与 Ant Design 官网 glass demo 对齐：按钮等由 glassTheme.ts 负责；
+   此处仅修补挂到 body 的弹层（Select/DatePicker/Dropdown 等）与 Modal 蒙层。 */
 
 :root {
   --glass-panel-bg: rgba(255, 255, 255, 0.18);
   --glass-panel-bg-strong: rgba(255, 255, 255, 0.34);
   --glass-panel-border: rgba(255, 255, 255, 0.42);
-  --glass-button-bg: rgba(255, 255, 255, 0.16);
-  --glass-button-bg-hover: rgba(255, 255, 255, 0.28);
-  --glass-button-bg-active: rgba(255, 255, 255, 0.22);
-  --glass-primary-bg:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.34), transparent 38%),
-    linear-gradient(135deg, rgba(71, 177, 255, 0.84), rgba(22, 119, 255, 0.82));
-  --glass-primary-bg-hover:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.42), transparent 36%),
-    linear-gradient(135deg, rgba(90, 190, 255, 0.92), rgba(22, 119, 255, 0.9));
-  --glass-danger-bg: color-mix(in srgb, #ff4d4f 16%, transparent);
-  --glass-danger-bg-hover: color-mix(in srgb, #ff4d4f 26%, transparent);
   --glass-panel-shadow:
     0 22px 64px rgba(28, 75, 128, 0.18),
     inset 0 0 5px 2px rgba(255, 255, 255, 0.28),
     inset 0 8px 3px rgba(255, 255, 255, 0.16);
-}
-
-.ant-btn {
-  border-color: var(--glass-panel-border) !important;
-  background: var(--glass-button-bg) !important;
-  box-shadow:
-    inset 0 0 5px 1px rgba(255, 255, 255, 0.28),
-    0 8px 24px rgba(28, 75, 128, 0.08);
-  -webkit-backdrop-filter: blur(14px) saturate(135%);
-  backdrop-filter: blur(14px) saturate(135%);
-}
-
-.ant-btn:hover,
-.ant-btn:focus-visible {
-  border-color: rgba(255, 255, 255, 0.64) !important;
-  background: var(--glass-button-bg-hover) !important;
-  box-shadow:
-    inset 0 0 6px 2px rgba(255, 255, 255, 0.34),
-    0 12px 30px rgba(28, 75, 128, 0.14);
-}
-
-.ant-btn:active {
-  background: var(--glass-button-bg-active) !important;
-  box-shadow: inset 0 0 5px 1px rgba(255, 255, 255, 0.24);
-}
-
-.ant-btn-primary {
-  border-color: rgba(123, 203, 255, 0.86) !important;
-  border-radius: 12px;
-  background: var(--glass-primary-bg) !important;
-  color: #fff !important;
-  text-shadow: 0 1px 2px rgba(0, 53, 128, 0.26);
-  box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.58),
-    inset 0 -8px 16px rgba(0, 83, 180, 0.18),
-    0 6px 16px rgba(22, 119, 255, 0.28),
-    0 0 0 1px rgba(255, 255, 255, 0.22);
-  -webkit-backdrop-filter: blur(16px) saturate(150%);
-  backdrop-filter: blur(16px) saturate(150%);
-}
-
-.ant-btn-primary:hover,
-.ant-btn-primary:focus-visible {
-  border-color: rgba(160, 221, 255, 0.95) !important;
-  background: var(--glass-primary-bg-hover) !important;
-  color: #fff !important;
-  box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.68),
-    inset 0 -8px 16px rgba(0, 83, 180, 0.14),
-    0 8px 20px rgba(22, 119, 255, 0.36),
-    0 0 0 1px rgba(255, 255, 255, 0.3);
-  transform: translateY(-1px);
-}
-
-.ant-btn-primary:active {
-  background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.24), transparent 42%),
-    linear-gradient(135deg, rgba(36, 151, 255, 0.88), rgba(9, 88, 217, 0.9)) !important;
-  box-shadow:
-    inset 0 2px 8px rgba(0, 59, 138, 0.22),
-    0 4px 12px rgba(22, 119, 255, 0.22);
-  transform: translateY(0);
-}
-
-.ant-btn-dangerous:not(.ant-btn-primary) {
-  border-color: color-mix(in srgb, #ff4d4f 38%, rgba(255, 255, 255, 0.7)) !important;
-  background: var(--glass-danger-bg) !important;
-  color: #d9363e !important;
-}
-
-.ant-btn-dangerous:not(.ant-btn-primary):hover,
-.ant-btn-dangerous:not(.ant-btn-primary):focus-visible {
-  background: var(--glass-danger-bg-hover) !important;
-  color: #d9363e !important;
-}
-
-.ant-btn-primary.ant-btn-dangerous {
-  border-color: color-mix(in srgb, #ff4d4f 42%, rgba(255, 255, 255, 0.72)) !important;
-  background: color-mix(in srgb, #ff4d4f 58%, transparent) !important;
-  color: #fff !important;
-}
-
-.ant-btn-primary.ant-btn-dangerous:hover,
-.ant-btn-primary.ant-btn-dangerous:focus-visible {
-  background: color-mix(in srgb, #ff4d4f 72%, transparent) !important;
-}
-
-.ant-btn-text,
-.ant-btn-link {
-  border-color: transparent !important;
-  background: transparent !important;
-  box-shadow: none;
-}
-
-.ant-btn-text:hover,
-.ant-btn-link:hover,
-.ant-btn-text:focus-visible,
-.ant-btn-link:focus-visible {
-  border-color: var(--glass-panel-border) !important;
-  background: var(--glass-button-bg-hover) !important;
-  box-shadow: inset 0 0 5px 1px rgba(255, 255, 255, 0.28);
-}
-
-.ant-btn[disabled],
-.ant-btn-disabled {
-  border-color: rgba(255, 255, 255, 0.24) !important;
-  background: rgba(255, 255, 255, 0.1) !important;
-  box-shadow: none;
-  -webkit-backdrop-filter: blur(8px);
-  backdrop-filter: blur(8px);
+  --glass-control-inset: inset 0 0 4px 1px rgba(255, 255, 255, 0.28);
+  --glass-hover-ring: 0 0 0 2px rgba(64, 150, 255, 1);
+  --glass-select-inset:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.42),
+    inset 0 1px 2px rgba(255, 255, 255, 0.28);
+  --glass-select-hover-ring: 0 0 0 2px rgba(64, 150, 255, 1);
 }
 
 .ant-modal-mask {
   background: rgba(238, 247, 255, 0.24) !important;
-  -webkit-backdrop-filter: blur(6px);
-  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px) !important;
+  backdrop-filter: blur(6px) !important;
 }
 
-.ant-modal .ant-modal-content {
-  border: 1px solid var(--glass-panel-border);
-  background: rgba(255, 255, 255, 0.2) !important;
-  box-shadow: var(--glass-panel-shadow);
-  -webkit-backdrop-filter: blur(18px) saturate(130%);
-  backdrop-filter: blur(18px) saturate(130%);
+/* Ant Design 6：弹窗面板为 .ant-modal-container（非旧版 .ant-modal-content） */
+.ant-modal .ant-modal-container,
+.ant-modal-confirm .ant-modal-container {
+  border: 1px solid var(--glass-panel-border) !important;
+  background: rgba(207, 199, 218, 0.2) !important;
+  box-shadow: var(--glass-panel-shadow) !important;
+  -webkit-backdrop-filter: blur(18px) saturate(130%) !important;
+  backdrop-filter: blur(18px) saturate(130%) !important;
 }
 
 .ant-modal .ant-modal-header,
-.ant-modal .ant-modal-body,
-.ant-modal .ant-modal-footer {
+.ant-modal .ant-modal-footer,
+.ant-modal-confirm .ant-modal-header,
+.ant-modal-confirm .ant-modal-confirm-btns {
   background: transparent !important;
+  flex: 0 0 auto;
+}
+
+/* 弹窗过高：容器限高 + body 内滚动（头/底固定） */
+.ant-modal-root .ant-modal-wrap {
+  overflow-y: auto !important;
+  -webkit-overflow-scrolling: touch;
+  padding: 24px 16px;
+  box-sizing: border-box;
+}
+
+.ant-modal .ant-modal-container,
+.ant-modal-confirm .ant-modal-container {
+  display: flex;
+  flex-direction: column;
+  max-height: min(90dvh, 900px);
+  overflow: hidden;
+}
+
+.ant-modal .ant-modal-body,
+.ant-modal-confirm .ant-modal-body {
+  background: transparent !important;
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-gutter: stable;
+  padding-inline: 4px;
+}
+
+.ant-modal .ant-modal-body::-webkit-scrollbar {
+  width: 6px;
+}
+
+.ant-modal .ant-modal-body::-webkit-scrollbar-thumb {
+  border-radius: 999px;
+  background: rgba(28, 75, 128, 0.22);
 }
 
 .ant-picker-dropdown .ant-picker-panel-container,
@@ -221,4 +147,128 @@
 .ant-popover .ant-popover-arrow::before,
 .ant-tooltip .ant-tooltip-arrow::before {
   background: var(--glass-panel-bg) !important;
+}
+
+/* Table：与 glassTheme tableRoot / tableContent 对齐，覆盖表头/单元格默认实色底 */
+.ant-table-wrapper .ant-table,
+.ant-table-wrapper .ant-table-container,
+.ant-table-wrapper .ant-table-content {
+  background: transparent !important;
+}
+
+.ant-table-wrapper .ant-table-thead > tr > th {
+  background: color-mix(in srgb, #ffffff 24%, transparent) !important;
+  border-bottom-color: color-mix(in srgb, #4d7298 18%, transparent) !important;
+}
+
+.ant-table-wrapper .ant-table-tbody > tr > td {
+  background: transparent !important;
+  border-bottom-color: color-mix(in srgb, #4d7298 12%, transparent) !important;
+}
+
+.ant-table-wrapper .ant-table-tbody > tr:hover > td {
+  background: rgba(255, 255, 255, 0.2) !important;
+}
+
+/* Menu：侧栏菜单项玻璃态（ConfigProvider menu.classNames 的补充） */
+.ant-menu-light.ant-menu-inline .ant-menu-item {
+  border-radius: 12px;
+}
+
+.ant-menu-light.ant-menu-inline .ant-menu-item-selected {
+  background: var(--glass-panel-bg-strong) !important;
+  box-shadow: var(--glass-panel-shadow);
+}
+
+/* Modal 内信息提示（Alert） */
+.ant-modal .ant-alert {
+  border: 1px solid var(--glass-panel-border);
+  background: var(--glass-panel-bg) !important;
+  box-shadow: var(--glass-panel-shadow);
+}
+
+/*
+ * Form 控件区：ant-form-item-control-input 仅为布局包裹层（无背景），
+ * 玻璃态需加在其子节点 ant-form-item-control-input-content 内的真实控件上。
+ */
+.ant-form-item-control-input-content .ant-input-outlined,
+.ant-form-item-control-input-content .ant-input-affix-wrapper,
+.ant-form-item-control-input-content .ant-input-number-outlined,
+.ant-form-item-control-input-content .ant-input-number-affix-wrapper,
+.ant-form-item-control-input-content .ant-input-textarea-affix-wrapper {
+  border-color: var(--glass-panel-border) !important;
+  background: var(--glass-panel-bg) !important;
+  box-shadow: var(--glass-control-inset);
+}
+
+.ant-form-item-control-input-content .ant-input-outlined:hover:not(.ant-input-disabled),
+.ant-form-item-control-input-content .ant-input-affix-wrapper:hover:not(.ant-input-disabled),
+.ant-form-item-control-input-content .ant-input-number-outlined:hover:not(.ant-input-number-disabled),
+.ant-form-item-control-input-content .ant-input-number-affix-wrapper:hover:not(.ant-input-number-disabled),
+.ant-form-item-control-input-content .ant-input-textarea-affix-wrapper:hover:not(.ant-input-disabled) {
+  box-shadow: var(--glass-control-inset), var(--glass-hover-ring) !important;
+}
+
+/* Ant Design 6 Select：默认玻璃胶囊（无蓝色外圈 box-shadow） */
+.ant-select.ant-select-outlined,
+.ant-select.ant-select-outlined.ant-select-in-form-item,
+.ant-form-item-control-input-content .ant-select.ant-select-outlined {
+  --ant-select-background-color: color-mix(in srgb, #ffffff 40%, transparent) !important;
+  --ant-select-border-color: rgba(255, 255, 255, 0.55) !important;
+  border-color: rgba(255, 255, 255, 0.55) !important;
+  background: color-mix(in srgb, #ffffff 40%, transparent) !important;
+  -webkit-backdrop-filter: blur(14px);
+  backdrop-filter: blur(14px);
+  box-shadow: var(--glass-select-inset) !important;
+}
+
+.ant-select.ant-select-outlined:hover:not(.ant-select-disabled),
+.ant-form-item-control-input-content .ant-select.ant-select-outlined:hover:not(.ant-select-disabled) {
+  --ant-select-background-color: color-mix(in srgb, #ffffff 48%, transparent) !important;
+  --ant-select-border-color: rgba(255, 255, 255, 0.62) !important;
+  background: color-mix(in srgb, #ffffff 48%, transparent) !important;
+  box-shadow: var(--glass-select-hover-ring) !important;
+}
+
+.ant-select.ant-select-outlined.ant-select-focused:not(.ant-select-disabled),
+.ant-select.ant-select-outlined.ant-select-open:not(.ant-select-disabled),
+.ant-form-item-control-input-content .ant-select.ant-select-outlined.ant-select-focused:not(.ant-select-disabled),
+.ant-form-item-control-input-content .ant-select.ant-select-outlined.ant-select-open:not(.ant-select-disabled) {
+  --ant-select-background-color: color-mix(in srgb, #ffffff 48%, transparent) !important;
+  --ant-select-border-color: rgba(255, 255, 255, 0.62) !important;
+  box-shadow: var(--glass-select-inset) !important;
+}
+
+/* 表头等非 Form 内的 Input（Select 不套用蓝色 hover 环） */
+.ant-input-outlined:hover:not(.ant-input-disabled),
+.ant-input-affix-wrapper:hover:not(.ant-input-disabled),
+.ant-input-number-outlined:hover:not(.ant-input-number-disabled) {
+  box-shadow: var(--glass-control-inset), var(--glass-hover-ring) !important;
+}
+
+.ant-select.ant-select-outlined .ant-select-suffix {
+  border-inline-start: 1px solid rgba(255, 255, 255, 0.38);
+  padding-inline-start: 10px;
+  margin-inline-start: 6px;
+}
+
+/* 多选等仍使用 selector 的旧结构 */
+.ant-form-item-control-input-content .ant-select .ant-select-selector {
+  border-color: rgba(255, 255, 255, 0.55) !important;
+  background: color-mix(in srgb, #ffffff 40%, transparent) !important;
+  box-shadow: var(--glass-select-inset) !important;
+}
+
+.ant-form-item-control-input-content .ant-select:hover:not(.ant-select-disabled) .ant-select-selector {
+  box-shadow: var(--glass-select-hover-ring) !important;
+}
+
+.ant-form-item-control-input-content .ant-select.ant-select-focused .ant-select-selector,
+.ant-form-item-control-input-content .ant-select.ant-select-open .ant-select-selector {
+  box-shadow: var(--glass-select-inset) !important;
+}
+
+.ant-form-item-control-input-content .ant-input-textarea-affix-wrapper textarea.ant-input {
+  background: transparent !important;
+  box-shadow: none;
 }
