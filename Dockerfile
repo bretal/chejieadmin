@@ -11,7 +11,9 @@ RUN npm run build
 # 阶段 2：仅将静态产物放入 Nginx，镜像体积小、运行时无 Node
 FROM nginx:alpine
 COPY nginx.conf /etc/nginx/conf.d/default.conf
+COPY cert/ /etc/nginx/cert/
 COPY --from=builder /app/dist /usr/share/nginx/html
 
 EXPOSE 80
+EXPOSE 443
 CMD ["nginx", "-g", "daemon off;"]
