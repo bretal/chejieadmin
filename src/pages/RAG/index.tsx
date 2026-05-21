@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { App, Button, Card, Collapse, Empty, Input, Popconfirm, Space, Table, Tag, Typography, Upload } from 'antd';
+import { App, Button, Collapse, Empty, Input, Popconfirm, Space, Table, Tag, Typography, Upload } from 'antd';
 import {
   DeleteOutlined,
   InboxOutlined,

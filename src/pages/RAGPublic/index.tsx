@@ -132,17 +132,21 @@ const useStyles = createStyles(({ css, cssVar }) => {
       pointerEvents: 'none',
       zIndex: 0,
     }),
-    particle: (i: number) =>
-      css({
-        position: 'absolute',
-        bottom: '-12px',
-        left: `${(i * 13 + 7) % 100}%`,
-        width: `${(i % 3) + 3}px`,
-        height: `${(i % 3) + 3}px`,
-        background: i % 2 === 0 ? 'rgba(99, 102, 241, 0.5)' : 'rgba(16, 185, 129, 0.4)',
-        borderRadius: '50%',
-        animation: `${floatParticle} ${(i % 3) + 6}s ${(i * 0.7).toFixed(1)}s infinite ease-in`,
-      }),
+    ...Object.fromEntries(
+      Array.from({ length: 14 }, (_, i) => [
+        `particle${i}`,
+        css({
+          position: 'absolute',
+          bottom: '-12px',
+          left: `${(i * 13 + 7) % 100}%`,
+          width: `${(i % 3) + 3}px`,
+          height: `${(i % 3) + 3}px`,
+          background: i % 2 === 0 ? 'rgba(99, 102, 241, 0.5)' : 'rgba(16, 185, 129, 0.4)',
+          borderRadius: '50%',
+          animation: `${floatParticle} ${(i % 3) + 6}s ${(i * 0.7).toFixed(1)}s infinite ease-in`,
+        }),
+      ]),
+    ),
 
     container: css({
       position: 'relative',
@@ -298,14 +302,18 @@ const useStyles = createStyles(({ css, cssVar }) => {
       gap: 6,
       padding: '4px 0',
     }),
-    typingDot: (i: number) =>
-      css({
-        width: 7,
-        height: 7,
-        borderRadius: '50%',
-        background: '#6366f1',
-        animation: `${typingBounce} 1.4s ${i * 0.15}s infinite ease-in-out`,
-      }),
+    ...Object.fromEntries(
+      [0, 1, 2].map((i) => [
+        `typingDot${i}`,
+        css({
+          width: 7,
+          height: 7,
+          borderRadius: '50%',
+          background: '#6366f1',
+          animation: `${typingBounce} 1.4s ${i * 0.15}s infinite ease-in-out`,
+        }),
+      ]),
+    ),
 
     sourcesBox: css({
       marginTop: 10,
@@ -503,7 +511,7 @@ export default function RAGPublicPage() {
       {/* floating particles */}
       <div className={styles.particles}>
         {Array.from({ length: 14 }, (_, i) => (
-          <div key={i} className={styles.particle(i)} />
+          <div key={i} className={styles[`particle${i}` as keyof typeof styles] as string} />
         ))}
       </div>
 
@@ -567,9 +575,9 @@ export default function RAGPublicPage() {
                       <div style={{ flex: 1 }}>
                         {m.streaming && m.content.length === 0 ? (
                           <div className={styles.typingIndicator}>
-                            <span className={styles.typingDot(0)} />
-                            <span className={styles.typingDot(1)} />
-                            <span className={styles.typingDot(2)} />
+                            {[0, 1, 2].map((i) => (
+                              <span key={i} className={styles[`typingDot${i}` as keyof typeof styles] as string} />
+                            ))}
                             <Typography.Text type="secondary" style={{ fontSize: 13, marginLeft: 6 }}>
                               正在翻阅文档，为您生成最准确的回答...
                             </Typography.Text>
