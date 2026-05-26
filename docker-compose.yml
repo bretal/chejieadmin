@@ -5,7 +5,8 @@ services:
     ports:
       - "80:80"
       - "443:443"
-    # 容器内访问「宿主机」上的后端（例如本机 8080 的 Spring Boot），替代手动配置里的 127.0.0.1
+    volumes:
+      - /etc/letsencrypt:/etc/letsencrypt:ro
     extra_hosts:
       - "host.docker.internal:host-gateway"
     restart: unless-stopped
