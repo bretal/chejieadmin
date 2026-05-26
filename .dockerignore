@@ -10,3 +10,4 @@ docs
 dist.rar
 .env
 .env.*
+!.env.production
