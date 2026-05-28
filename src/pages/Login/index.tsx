@@ -88,7 +88,7 @@ export default function LoginPage() {
   const [form] = Form.useForm<LoginFormValues>();
 
   if (isAuthenticated()) {
-    const redirect = searchParams.get('redirect') || '/';
+    const redirect = searchParams.get('redirect') || '/admin';
     return <Navigate to={redirect} replace />;
   }
 
@@ -117,7 +117,7 @@ export default function LoginPage() {
 
       message.success('登录成功');
       const fromState = (location.state as { from?: { pathname?: string } } | null)?.from?.pathname;
-      const redirect = searchParams.get('redirect') || fromState || '/';
+      const redirect = searchParams.get('redirect') || fromState || '/admin';
       navigate(redirect, { replace: true });
     } catch (error) {
       message.error(getErrorMessage(error, '登录失败，请检查用户名或密码'));

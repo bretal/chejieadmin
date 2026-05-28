@@ -11,15 +11,31 @@ export default defineConfig(({ mode }) => {
     port: 3000,
     proxy: {
       '/admin': {
-        target: 'http://localhost:8080',
+        target: 'http://localhost:3001',
         changeOrigin: true,
       },
       '/auth': {
-        target: 'http://localhost:8080',
+        target: 'http://localhost:3001',
+        changeOrigin: true,
+      },
+      '/menu': {
+        target: 'http://localhost:3001',
+        changeOrigin: true,
+      },
+      '/v1': {
+        target: 'http://localhost:3001',
+        changeOrigin: true,
+      },
+      '/resource': {
+        target: 'http://localhost:3001',
+        changeOrigin: true,
+      },
+      '/captcha': {
+        target: 'http://localhost:3001',
         changeOrigin: true,
       },
       '/dev-api': {
-        target: 'http://localhost:8080',
+        target: 'http://localhost:3001',
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/dev-api/, ''),
       },

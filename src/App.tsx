@@ -4,6 +4,7 @@ import zhCN from 'antd/locale/zh_CN';
 import useGlassTheme from './glassTheme';
 import AuthGuard from './components/AuthGuard';
 import GlassLayout from './components/GlassLayout';
+import ShowcasePage from './pages/Showcase';
 import LoginPage from './pages/Login';
 import Dashboard from './pages/Dashboard';
 import BrandPage from './pages/Brand';
@@ -26,11 +27,12 @@ export default function App() {
     <ConfigProvider {...glassConfig} locale={zhCN}>
       <AntdApp>
         <Routes>
+          <Route path="/" element={<ShowcasePage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/rag-public" element={<RAGPublicPage />} />
 
           <Route element={<AuthGuard />}>
-            <Route path="/" element={<GlassLayout />}>
+            <Route path="/admin" element={<GlassLayout />}>
               <Route index element={<Dashboard />} />
               <Route path="brand" element={<BrandPage />} />
               <Route path="car" element={<CarPage />} />
