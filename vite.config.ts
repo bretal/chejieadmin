@@ -13,6 +13,13 @@ export default defineConfig(({ mode }) => {
       '/admin': {
         target: 'http://localhost:3001',
         changeOrigin: true,
+        bypass(req) {
+          // 浏览器页面请求（Accept: text/html）走 SPA，不代理到后端
+          const accept = req.headers.accept || '';
+          if (accept.includes('text/html')) {
+            return '/index.html';
+          }
+        },
       },
       '/auth': {
         target: 'http://localhost:3001',
