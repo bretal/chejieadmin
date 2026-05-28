@@ -7,7 +7,7 @@ export default function App() {
     <Routes>
       <Route path="/login" element={<LoginPage />} />
       <Route element={<AuthGuard />}>
-        <Route path="/admin" element={<GlassLayout />}>
+        <Route path="/manage" element={<GlassLayout />}>
           <Route index element={<Dashboard />} />
         </Route>
       </Route>

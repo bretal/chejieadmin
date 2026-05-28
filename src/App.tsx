@@ -32,7 +32,7 @@ export default function App() {
           <Route path="/rag-public" element={<RAGPublicPage />} />
 
           <Route element={<AuthGuard />}>
-            <Route path="/admin" element={<GlassLayout />}>
+            <Route path="/manage" element={<GlassLayout />}>
               <Route index element={<Dashboard />} />
               <Route path="brand" element={<BrandPage />} />
               <Route path="car" element={<CarPage />} />

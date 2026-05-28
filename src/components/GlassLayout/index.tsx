@@ -23,18 +23,18 @@ import { logout } from '../../api/auth';
 const { Header, Sider, Content } = Layout;
 
 const menuItems = [
-  { key: '/admin', icon: <DashboardOutlined />, label: '仪表盘' },
-  { key: '/admin/brand', icon: <IdcardOutlined />, label: '品牌管理' },
-  { key: '/admin/car', icon: <CarOutlined />, label: '车型管理' },
-  { key: '/admin/car-config', icon: <SettingOutlined />, label: '配置管理' },
-  { key: '/admin/car-media', icon: <PictureOutlined />, label: '媒体管理' },
-  { key: '/admin/car-color', icon: <BgColorsOutlined />, label: '颜色管理' },
-  { key: '/admin/car-rival', icon: <SwapOutlined />, label: '竞品关系' },
-  { key: '/admin/persona', icon: <UserOutlined />, label: '用户画像' },
-  { key: '/admin/persona-car', icon: <SwapOutlined />, label: '画像推荐' },
-  { key: '/admin/banner', icon: <PictureFilled />, label: 'Banner管理' },
-  { key: '/admin/apps/next', icon: <AppstoreOutlined />, label: 'Next 子应用' },
-  { key: '/admin/rag', icon: <RobotOutlined />, label: 'RAG 助手' },
+  { key: '/manage', icon: <DashboardOutlined />, label: '仪表盘' },
+  { key: '/manage/brand', icon: <IdcardOutlined />, label: '品牌管理' },
+  { key: '/manage/car', icon: <CarOutlined />, label: '车型管理' },
+  { key: '/manage/car-config', icon: <SettingOutlined />, label: '配置管理' },
+  { key: '/manage/car-media', icon: <PictureOutlined />, label: '媒体管理' },
+  { key: '/manage/car-color', icon: <BgColorsOutlined />, label: '颜色管理' },
+  { key: '/manage/car-rival', icon: <SwapOutlined />, label: '竞品关系' },
+  { key: '/manage/persona', icon: <UserOutlined />, label: '用户画像' },
+  { key: '/manage/persona-car', icon: <SwapOutlined />, label: '画像推荐' },
+  { key: '/manage/banner', icon: <PictureFilled />, label: 'Banner管理' },
+  { key: '/manage/apps/next', icon: <AppstoreOutlined />, label: 'Next 子应用' },
+  { key: '/manage/rag', icon: <RobotOutlined />, label: 'RAG 助手' },
 ];
 
 export default function GlassLayout() {
@@ -109,7 +109,7 @@ export default function GlassLayout() {
               .filter((item) =>
                 location.pathname === item.key || location.pathname.startsWith(`${item.key}/`),
               )
-              .sort((a, b) => b.key.length - a.key.length)[0]?.key ?? '/admin',
+              .sort((a, b) => b.key.length - a.key.length)[0]?.key ?? '/manage',
           ]}
           items={menuItems}
           onClick={({ key }) => navigate(key)}
