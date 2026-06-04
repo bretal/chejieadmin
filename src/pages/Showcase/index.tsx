@@ -5,11 +5,14 @@ import {
   Carousel,
   CodeBlock,
   Hero,
+  MediaCarousel,
   Section,
   ShowcaseFooter,
 } from './components';
 import { RAG_PUBLIC_PATH } from './constants';
-import { SNIPPET_BACKEND, SNIPPET_ELECTRON, SNIPPET_MINAPP, SNIPPET_WEB } from './snippets';
+import { SNIPPET_BACKEND, SNIPPET_ELECTRON } from './snippets';
+import { MINIAPP_DEMO_ITEMS } from './miniappDemos';
+import { WEB_DEMO_ITEMS } from './webDemos';
 
 const TECH_CAROUSEL_ITEMS = [
   {
@@ -58,52 +61,19 @@ export default function ShowcasePage() {
         title="Web 管理系统"
         desc="多年深耕企业级后台管理系统的设计与开发，沉淀了完善的技术体系与最佳实践。"
       >
-        <div className="two-col" style={{ marginTop: 56 }}>
-          <AnimItem variant="left" delay={2}>
-            <div className="col-text">
-              <ul className="skill-list">
-                <li><span className="skill-dot" />React 19 + TypeScript 6 构建类型安全的大型应用</li>
-                <li><span className="skill-dot" />Ant Design 6 组件库深度定制与主题体系设计</li>
-                <li><span className="skill-dot" />Vite 8 极速构建工具链，开发体验与构建效率兼顾</li>
-                <li><span className="skill-dot" />动态路由 + 权限模型，适应多角色复杂业务场景</li>
-                <li><span className="skill-dot" />微前端架构（Micro Frontend）实现多团队协作</li>
-                <li><span className="skill-dot" />数据可视化大屏，ECharts / D3.js 图表开发</li>
-              </ul>
-            </div>
-          </AnimItem>
-          <AnimItem variant="right" delay={3}>
-            <div className="col-visual">
-              <CodeBlock code={SNIPPET_WEB} />
-            </div>
-          </AnimItem>
-        </div>
+        <AnimItem variant="up" delay={2}>
+          <MediaCarousel items={WEB_DEMO_ITEMS} />
+        </AnimItem>
       </Section>
 
       <Section
         id="miniapp"
-        // number="03 / 模块"
         title="移动多端小程序开发"
         desc="具备完整的多端小程序从 0 到 1 交付能力，涵盖前端开发、跨端差异化解决、上线发布全流程。"
       >
-        <div className="two-col reverse-mobile" style={{ marginTop: 56 }}>
-          <AnimItem variant="left" delay={2}>
-            <div className="col-visual">
-              <CodeBlock code={SNIPPET_MINAPP} />
-            </div>
-          </AnimItem>
-          <AnimItem variant="right" delay={3}>
-            <div className="col-text">
-              <ul className="skill-list">
-                <li><span className="skill-dot" />Taro/UniApp+ts</li>
-                {/* <li><span className="skill-dot" />微信云开发（CloudBase）数据库 & 云函数</li>
-                <li><span className="skill-dot" />微信支付全流程集成：统一下单、回调处理</li> */}
-                <li><span className="skill-dot" />地图 / 定位 / 导航 API 深度集成</li>
-                <li><span className="skill-dot" />自定义组件封装与复用体系</li>
-                <li><span className="skill-dot" />订阅消息推送、用户授权与数据合规</li>
-              </ul>
-            </div>
-          </AnimItem>
-        </div>
+        <AnimItem variant="up" delay={2}>
+          <MediaCarousel items={MINIAPP_DEMO_ITEMS} />
+        </AnimItem>
       </Section>
 
       <Section

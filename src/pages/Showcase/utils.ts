@@ -2,3 +2,9 @@
 export function showcaseImg(filename: string) {
   return `${import.meta.env.BASE_URL}showcases/${filename}`;
 }
+
+/** 展示页截图 / 视频等资源，路径相对 showcases/ */
+export function showcaseAsset(path: string) {
+  const normalized = path.replace(/^\//, '');
+  return `${import.meta.env.BASE_URL}showcases/${normalized}`;
+}
