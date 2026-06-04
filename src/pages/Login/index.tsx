@@ -3,9 +3,11 @@ import { Navigate, useLocation, useNavigate, useSearchParams } from 'react-route
 import { App, Button, Card, Checkbox, Form, Input, Typography, theme } from 'antd';
 import { LockOutlined, RobotOutlined, UserOutlined } from '@ant-design/icons';
 import { createStyles } from 'antd-style';
-import { assertBusinessSuccess, extractToken, extractClientId, login, guestLogin, type LoginParams } from '../../api/auth';
+import { assertBusinessSuccess, extractToken, extractClientId, login, type LoginParams } from '../../api/auth';
 import { getErrorMessage } from '../../api/request';
-import { isAuthenticated, setToken, setClientId, setGuest, setUserId } from '../../auth/token';
+import { enterAsGuest } from '../../auth/enterAsGuest';
+import { isAuthenticated, setToken, setClientId, setUserId } from '../../auth/token';
+import { MANAGE_RAG_PATH } from '../../constants/routes';
 
 const { useToken } = theme;
 
@@ -88,25 +90,12 @@ export default function LoginPage() {
   const [guestSubmitting, setGuestSubmitting] = useState(false);
   const [form] = Form.useForm<LoginFormValues>();
 
-  const handleGuestLogin = async () => {
+  const handleGuestLogin = async (redirect = '/manage') => {
     setGuestSubmitting(true);
     try {
-      const res = await guestLogin();
-      assertBusinessSuccess(res);
-      const token = extractToken(res);
-      if (!token) {
-        message.error('访客登录失败，请稍后重试');
-        return;
-      }
-      setToken(token);
-      setGuest();
-      setUserId('guest_' + crypto.randomUUID());
-      const cid = extractClientId(res);
-      if (cid) {
-        setClientId(cid);
-      }
+      await enterAsGuest();
       message.success('访客登录成功');
-      navigate('/manage', { replace: true });
+      navigate(redirect, { replace: true });
     } catch (error) {
       message.error(getErrorMessage(error, '访客登录失败'));
     } finally {
@@ -225,7 +214,7 @@ export default function LoginPage() {
             <Button
               type="link"
               loading={guestSubmitting}
-              onClick={handleGuestLogin}
+              onClick={() => handleGuestLogin()}
               style={{ color: 'rgba(31,42,68,0.5)', fontSize: 13 }}
             >
               访客登录 (仅浏览)
@@ -234,33 +223,25 @@ export default function LoginPage() {
         </Form>
 
         <div className={styles.footer}>
-          <a
-            href="/rag-public"
+          <Button
+            type="primary"
+            icon={<RobotOutlined />}
+            loading={guestSubmitting}
+            onClick={() => handleGuestLogin(MANAGE_RAG_PATH)}
             style={{
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: 6,
+              height: 'auto',
               padding: '8px 20px',
               borderRadius: 20,
               background: 'linear-gradient(135deg, #6366f1, #8b5cf6)',
-              color: '#fff',
+              border: 'none',
               fontSize: 13,
               fontWeight: 500,
               letterSpacing: 1,
-              transition: 'all 0.3s',
               boxShadow: '0 4px 14px rgba(99,102,241,0.32)',
             }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.transform = 'translateY(-2px)';
-              e.currentTarget.style.boxShadow = '0 6px 20px rgba(99,102,241,0.45)';
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.transform = 'translateY(0)';
-              e.currentTarget.style.boxShadow = '0 4px 14px rgba(99,102,241,0.32)';
-            }}
           >
-            <RobotOutlined /> RAG 智能问答
-          </a>
+            RAG 智能问答
+          </Button>
           <div style={{ marginTop: 12 }}>车界数据管理平台 v1.0</div>
         </div>
       </Card>

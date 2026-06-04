@@ -1,4 +1,6 @@
-import { Link } from 'react-router-dom';
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { App } from 'antd';
 import './showcase.css';
 import {
   AnimItem,
@@ -9,7 +11,9 @@ import {
   Section,
   ShowcaseFooter,
 } from './components';
-import { RAG_PUBLIC_PATH } from './constants';
+import { getErrorMessage } from '../../api/request';
+import { enterAsGuest } from '../../auth/enterAsGuest';
+import { MANAGE_RAG_PATH } from '../../constants/routes';
 import { SNIPPET_BACKEND, SNIPPET_ELECTRON } from './snippets';
 import { MINIAPP_DEMO_ITEMS } from './miniappDemos';
 import { WEB_DEMO_ITEMS } from './webDemos';
@@ -43,6 +47,23 @@ const TECH_CAROUSEL_ITEMS = [
 ];
 
 export default function ShowcasePage() {
+  const navigate = useNavigate();
+  const { message } = App.useApp();
+  const [ragEntering, setRagEntering] = useState(false);
+
+  const handleEnterRAG = async () => {
+    setRagEntering(true);
+    try {
+      await enterAsGuest();
+      message.success('访客登录成功');
+      navigate(MANAGE_RAG_PATH, { replace: true });
+    } catch (error) {
+      message.error(getErrorMessage(error, '访客登录失败'));
+    } finally {
+      setRagEntering(false);
+    }
+  };
+
   return (
     <div className="showcase">
       <Hero />
@@ -147,9 +168,6 @@ export default function ShowcasePage() {
                 <li><span className="skill-dot" />Prompt Engineering 提示词优化与模板管理</li>
                 <li><span className="skill-dot" />文档解析、Embedding 向量化与语义分块(项目使用)</li>
               </ul>
-              <Link to={RAG_PUBLIC_PATH} className="showcase-rag-link">
-                进入 RAG 智能问答
-              </Link>
             </div>
           </AnimItem>
           <AnimItem variant="right" delay={3}>
@@ -175,6 +193,18 @@ export default function ShowcasePage() {
             </div>
           </AnimItem>
         </div>
+        <AnimItem variant="up" delay={4}>
+          <div className="showcase-rag-entry">
+            <button
+              type="button"
+              className="showcase-rag-link"
+              onClick={handleEnterRAG}
+              disabled={ragEntering}
+            >
+              {ragEntering ? '正在进入…' : '以访客身份进入 RAG 智能问答'}
+            </button>
+          </div>
+        </AnimItem>
       </Section>
 
       <ShowcaseFooter />

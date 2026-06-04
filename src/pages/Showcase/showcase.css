@@ -809,27 +809,46 @@
   flex-shrink: 0;
 }
 
-.showcase .showcase-rag-link {
-  display: inline-flex;
-  align-items: center;
-  margin-top: 24px;
-  padding: 12px 28px;
-  border-radius: 999px;
-  background: linear-gradient(135deg, #6366f1, #8b5cf6);
-  color: #fff;
-  font-size: 15px;
-  font-weight: 600;
-  letter-spacing: 0.5px;
-  text-decoration: none;
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  box-shadow: 0 8px 24px rgba(99, 102, 241, 0.35);
-  transition: transform 0.25s ease, box-shadow 0.25s ease;
+.showcase .section--ai .showcase-rag-entry {
+  display: flex;
+  justify-content: center;
+  margin-top: 48px;
 }
 
-.showcase .showcase-rag-link:hover {
+.showcase .section--ai .showcase-rag-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 14px 36px;
+  border-radius: var(--radius);
+  background: rgba(255, 255, 255, 0.14);
   color: #fff;
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  text-shadow: 0 1px 10px rgba(0, 0, 0, 0.45);
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  box-shadow:
+    0 12px 40px rgba(0, 0, 0, 0.28),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  transition: transform 0.25s ease, background 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+.showcase .section--ai .showcase-rag-link:hover:not(:disabled) {
+  color: #fff;
+  background: rgba(255, 255, 255, 0.22);
+  border-color: rgba(255, 255, 255, 0.38);
   transform: translateY(-2px);
-  box-shadow: 0 12px 32px rgba(99, 102, 241, 0.45);
+  box-shadow:
+    0 16px 48px rgba(0, 0, 0, 0.32),
+    inset 0 1px 0 rgba(255, 255, 255, 0.28);
+}
+
+.showcase .section--ai .showcase-rag-link:disabled {
+  opacity: 0.75;
+  cursor: not-allowed;
 }
 
 /* ===== Visual Code Block (Decorative) ===== */
