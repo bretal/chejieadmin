@@ -6,8 +6,13 @@ import 'dayjs/locale/zh-cn';
 import App from './App';
 import './index.css';
 import './glass-overrides.css';
+import { initMonitor } from './monitor';
 
 dayjs.locale('zh-cn');
+
+initMonitor({
+  environment: import.meta.env.MODE === 'development' ? 'development' : 'production',
+});
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>

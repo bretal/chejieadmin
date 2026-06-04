@@ -4,6 +4,7 @@ import { PlusOutlined, EditOutlined, DeleteOutlined } from '@ant-design/icons';
 import * as api from '../../api/carRival';
 import type { CarRival } from '../../api/carRival';
 import { getCarList, type Car } from '../../api/car';
+import { isGuest } from '../../auth/token';
 
 export default function CarRivalPage() {
   const [data, setData] = useState<CarRival[]>([]);
@@ -51,9 +52,9 @@ export default function CarRivalPage() {
     { title: '操作', key: 'action', width: 140,
       render: (_: unknown, r: CarRival) => (
         <Space>
-          <Button type="link" icon={<EditOutlined />} onClick={() => openEdit(r)}>编辑</Button>
+          <Button type="link" icon={<EditOutlined />} onClick={() => openEdit(r)} disabled={isGuest()} title={isGuest() ? '访客模式下无操作权限' : undefined}>编辑</Button>
           <Popconfirm title="确定删除?" onConfirm={() => handleDelete([r.id!])}>
-            <Button type="link" danger icon={<DeleteOutlined />}>删除</Button>
+            <Button type="link" icon={<DeleteOutlined />} disabled={isGuest()} title={isGuest() ? '访客模式下无操作权限' : undefined} style={{ color: '#ef4444' }}>删除</Button>
           </Popconfirm>
         </Space>
       ),
@@ -68,7 +69,7 @@ export default function CarRivalPage() {
           <Select placeholder="筛选车型" allowClear style={{ width: 160 }}
             options={cars.map((c) => ({ label: c.name, value: c.id }))}
             onChange={(v) => { setFilterCarId(v); setPage(1); fetch(1, v); }} />
-          <Button type="primary" icon={<PlusOutlined />} onClick={openAdd}>新增竞品</Button>
+          <Button type="primary" icon={<PlusOutlined />} onClick={isGuest() ? undefined : openAdd} disabled={isGuest()} title={isGuest() ? '访客模式下无操作权限' : undefined}>新增竞品</Button>
         </Space>
       </div>
       <Table rowKey="id" columns={columns} dataSource={data} loading={loading}

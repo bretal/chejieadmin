@@ -64,6 +64,16 @@ export function assertBusinessSuccess(payload: unknown): void {
 }
 
 /**
+ * 访客登录 - 无需账号密码，仅获得只读权限
+ */
+export async function guestLogin() {
+  const res = await axios.post<unknown>('/auth/guest-login', {}, {
+    headers: { 'Content-Type': 'application/json' },
+  });
+  return res.data;
+}
+
+/**
  * 登录接口 - 直接请求 /auth/login（通过 vite proxy 转发到后端）
  * 不走 /admin 前缀的 axios 实例，避免白名单外的 token 拦截
  */

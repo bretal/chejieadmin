@@ -3,9 +3,9 @@ import { Navigate, useLocation, useNavigate, useSearchParams } from 'react-route
 import { App, Button, Card, Checkbox, Form, Input, Typography, theme } from 'antd';
 import { LockOutlined, RobotOutlined, UserOutlined } from '@ant-design/icons';
 import { createStyles } from 'antd-style';
-import { assertBusinessSuccess, extractToken, extractClientId, login, type LoginParams } from '../../api/auth';
+import { assertBusinessSuccess, extractToken, extractClientId, login, guestLogin, type LoginParams } from '../../api/auth';
 import { getErrorMessage } from '../../api/request';
-import { isAuthenticated, setToken, setClientId } from '../../auth/token';
+import { isAuthenticated, setToken, setClientId, setGuest, setUserId } from '../../auth/token';
 
 const { useToken } = theme;
 
@@ -85,7 +85,34 @@ export default function LoginPage() {
   const location = useLocation();
   const [searchParams] = useSearchParams();
   const [submitting, setSubmitting] = useState(false);
+  const [guestSubmitting, setGuestSubmitting] = useState(false);
   const [form] = Form.useForm<LoginFormValues>();
+
+  const handleGuestLogin = async () => {
+    setGuestSubmitting(true);
+    try {
+      const res = await guestLogin();
+      assertBusinessSuccess(res);
+      const token = extractToken(res);
+      if (!token) {
+        message.error('访客登录失败，请稍后重试');
+        return;
+      }
+      setToken(token);
+      setGuest();
+      setUserId('guest_' + crypto.randomUUID());
+      const cid = extractClientId(res);
+      if (cid) {
+        setClientId(cid);
+      }
+      message.success('访客登录成功');
+      navigate('/manage', { replace: true });
+    } catch (error) {
+      message.error(getErrorMessage(error, '访客登录失败'));
+    } finally {
+      setGuestSubmitting(false);
+    }
+  };
 
   if (isAuthenticated()) {
     const redirect = searchParams.get('redirect') || '/manage';
@@ -109,6 +136,7 @@ export default function LoginPage() {
         return;
       }
       setToken(token);
+      setUserId(values.username.trim());
 
       const cid = extractClientId(res);
       if (cid) {
@@ -192,6 +220,17 @@ export default function LoginPage() {
           >
             登 录
           </Button>
+
+          <div style={{ marginTop: 16, textAlign: 'center' }}>
+            <Button
+              type="link"
+              loading={guestSubmitting}
+              onClick={handleGuestLogin}
+              style={{ color: 'rgba(31,42,68,0.5)', fontSize: 13 }}
+            >
+              访客登录 (仅浏览)
+            </Button>
+          </div>
         </Form>
 
         <div className={styles.footer}>

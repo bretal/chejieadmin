@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Outlet, useNavigate, useLocation } from 'react-router-dom';
-import { App, Layout, Menu, Button, Typography } from 'antd';
+import { App, Layout, Menu, Button, Typography, Tag } from 'antd';
 import {
   DashboardOutlined,
   CarOutlined,
@@ -17,7 +17,7 @@ import {
   AppstoreOutlined,
   RobotOutlined,
 } from '@ant-design/icons';
-import { clearToken, getToken, getClientId } from '../../auth/token';
+import { clearToken, getToken, getClientId, isGuest } from '../../auth/token';
 import { logout } from '../../api/auth';
 
 const { Header, Sider, Content } = Layout;
@@ -141,8 +141,11 @@ export default function GlassLayout() {
             <Typography.Text style={{ color: 'rgba(31, 42, 68, 0.62)', fontSize: 13 }}>
               车界数据管理平台
             </Typography.Text>
+            {isGuest() && (
+              <Tag color="orange" style={{ borderRadius: 10, fontSize: 12 }}>访客模式</Tag>
+            )}
             <Button type="text" icon={<LogoutOutlined />} onClick={handleLogout} style={{ color: '#1f2a44' }}>
-              退出
+              {isGuest() ? '退出访客' : '退出'}
             </Button>
           </div>
         </Header>

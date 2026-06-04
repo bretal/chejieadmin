@@ -4,6 +4,7 @@ import { PlusOutlined, EditOutlined, DeleteOutlined } from '@ant-design/icons';
 import type { Car } from '../../api/car';
 import * as api from '../../api/car';
 import { getAllBrands, type Brand } from '../../api/brand';
+import { isGuest } from '../../auth/token';
 
 const bodyTypeOpts = [
   { label: '轿车', value: 'sedan' }, { label: 'SUV', value: 'suv' },
@@ -85,9 +86,9 @@ export default function CarPage() {
     { title: '操作', key: 'action', width: 160,
       render: (_: unknown, record: Car) => (
         <Space>
-          <Button type="link" icon={<EditOutlined />} onClick={() => openEdit(record)}>编辑</Button>
+          <Button type="link" icon={<EditOutlined />} onClick={() => openEdit(record)} disabled={isGuest()} title={isGuest() ? '访客模式下无操作权限' : undefined}>编辑</Button>
           <Popconfirm title="确定删除?" onConfirm={() => handleDelete([record.id!])}>
-            <Button type="link" danger icon={<DeleteOutlined />}>删除</Button>
+            <Button type="link" icon={<DeleteOutlined />} disabled={isGuest()} title={isGuest() ? '访客模式下无操作权限' : undefined} style={{ color: '#ef4444' }}>删除</Button>
           </Popconfirm>
         </Space>
       ),
@@ -101,7 +102,7 @@ export default function CarPage() {
         <Space>
           <Input.Search placeholder="搜索车型" allowClear style={{ width: 200 }}
             onSearch={(v) => { setSearchName(v); setPage(1); fetch(1, v); }} />
-          <Button type="primary" icon={<PlusOutlined />} onClick={openAdd}>新增车型</Button>
+          <Button type="primary" icon={<PlusOutlined />} onClick={isGuest() ? undefined : openAdd} disabled={isGuest()} title={isGuest() ? '访客模式下无操作权限' : undefined}>新增车型</Button>
         </Space>
       </div>
       <Table rowKey="id" columns={columns} dataSource={data} loading={loading}

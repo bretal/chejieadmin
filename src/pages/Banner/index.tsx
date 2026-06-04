@@ -3,6 +3,7 @@ import { Table, Button, Modal, Form, Input, InputNumber, Space, Popconfirm, Typo
 import { PlusOutlined, EditOutlined, DeleteOutlined } from '@ant-design/icons';
 import type { Banner } from '../../api/banner';
 import * as api from '../../api/banner';
+import { isGuest } from '../../auth/token';
 
 export default function BannerPage() {
   const [data, setData] = useState<Banner[]>([]);
@@ -48,9 +49,9 @@ export default function BannerPage() {
     { title: '操作', key: 'action', width: 140,
       render: (_: unknown, r: Banner) => (
         <Space>
-          <Button type="link" icon={<EditOutlined />} onClick={() => openEdit(r)}>编辑</Button>
+          <Button type="link" icon={<EditOutlined />} onClick={() => openEdit(r)} disabled={isGuest()} title={isGuest() ? '访客模式下无操作权限' : undefined}>编辑</Button>
           <Popconfirm title="确定删除?" onConfirm={() => handleDelete([r.id!])}>
-            <Button type="link" danger icon={<DeleteOutlined />}>删除</Button>
+            <Button type="link" icon={<DeleteOutlined />} disabled={isGuest()} title={isGuest() ? '访客模式下无操作权限' : undefined} style={{ color: '#ef4444' }}>删除</Button>
           </Popconfirm>
         </Space>
       ),
@@ -61,7 +62,7 @@ export default function BannerPage() {
     <div>
       <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 16 }}>
         <Typography.Title level={3} style={{ margin: 0 }}>Banner管理</Typography.Title>
-        <Button type="primary" icon={<PlusOutlined />} onClick={openAdd}>新增Banner</Button>
+        <Button type="primary" icon={<PlusOutlined />} onClick={isGuest() ? undefined : openAdd} disabled={isGuest()} title={isGuest() ? '访客模式下无操作权限' : undefined}>新增Banner</Button>
       </div>
       <Table rowKey="id" columns={columns} dataSource={data} loading={loading}
         pagination={{ current: page, total, pageSize: 10, onChange: (p) => { setPage(p); fetch(p); } }}

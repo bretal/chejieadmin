@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { getUserId } from '../auth/token';
 
 const ragApi = axios.create({
   baseURL: '/rag-api',
@@ -22,9 +23,11 @@ export function uploadDocument(file: File, collection = 'default') {
   const fd = new FormData();
   fd.append('file', file);
   fd.append('collection', collection);
+  const uid = getUserId();
+  if (uid) fd.append('user_id', uid);
   return ragApi.post('/documents/upload', fd, {
     headers: { 'Content-Type': 'multipart/form-data' },
-  }) as Promise<{ task_id: string; status: string }>;
+  }) as Promise<{ task_id: string; status: string; file_md5: string }>;
 }
 
 export function getTaskStatus(taskId: string) {
@@ -52,6 +55,22 @@ export function searchDocuments(
 export function deleteDocument(fileMd5: string, collection = 'default') {
   return ragApi.delete(`/documents/${fileMd5}`, { params: { collection } }) as Promise<{
     deleted_chunks: number;
+  }>;
+}
+
+export interface UserFile {
+  md5: string;
+  name: string;
+  collection: string;
+  upload_time: string;
+}
+
+export function getUserFiles(collection = 'default') {
+  const uid = getUserId();
+  if (!uid) return Promise.resolve({ user_id: '', files: [] as UserFile[] });
+  return ragApi.get(`/documents/user/${uid}/files`, { params: { collection } }) as Promise<{
+    user_id: string;
+    files: UserFile[];
   }>;
 }
 

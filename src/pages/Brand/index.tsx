@@ -15,6 +15,7 @@ import {
 import { PlusOutlined, EditOutlined, DeleteOutlined } from '@ant-design/icons';
 import type { Brand } from '../../api/brand';
 import * as api from '../../api/brand';
+import { isGuest } from '../../auth/token';
 
 const STATUS_OPTIONS = [
   { label: '启用', value: '1' },
@@ -100,9 +101,9 @@ export default function BrandPage() {
       title: '操作', key: 'action', width: 160,
       render: (_: unknown, record: Brand) => (
         <Space>
-          <Button type="link" icon={<EditOutlined />} onClick={() => openEdit(record)}>编辑</Button>
+          <Button type="link" icon={<EditOutlined />} onClick={() => openEdit(record)} disabled={isGuest()} title={isGuest() ? '访客模式下无操作权限' : undefined}>编辑</Button>
           <Popconfirm title="确定删除?" onConfirm={() => handleDelete([record.id!])}>
-            <Button type="link" danger icon={<DeleteOutlined />}>删除</Button>
+            <Button type="link" icon={<DeleteOutlined />} disabled={isGuest()} title={isGuest() ? '访客模式下无操作权限' : undefined} style={{ color: '#ef4444' }}>删除</Button>
           </Popconfirm>
         </Space>
       ),
@@ -116,7 +117,7 @@ export default function BrandPage() {
         <Space>
           <Input.Search placeholder="搜索品牌名" allowClear style={{ width: 200 }}
             onSearch={(v) => { setSearchName(v); setPage(1); fetch(1, v); }} />
-          <Button type="primary" icon={<PlusOutlined />} onClick={openAdd}>新增品牌</Button>
+          <Button type="primary" icon={<PlusOutlined />} onClick={isGuest() ? undefined : openAdd} disabled={isGuest()} title={isGuest() ? '访客模式下无操作权限' : undefined}>新增品牌</Button>
         </Space>
       </div>
       <Table rowKey="id" columns={columns} dataSource={data} loading={loading}

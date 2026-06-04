@@ -200,8 +200,6 @@
 }
 .showcase .section--tech .module-card {
   background: transparent;
-  backdrop-filter: none;
-  -webkit-backdrop-filter: none;
   border: none;
   box-shadow: none;
 }
@@ -412,8 +410,6 @@
   border: 1px solid var(--surface-border);
   background: var(--surface);
   box-shadow: var(--surface-shadow);
-  backdrop-filter: blur(12px);
-  
   transition: all 0.4s ease;
 }
 .showcase .module-card:hover {
@@ -483,8 +479,6 @@
 
 .showcase .section--tech .module-card.module-card--carousel {
   background: rgba(0, 0, 0, 0.42);
-  /* backdrop-filter: blur(14px); */
-  /* -webkit-backdrop-filter: blur(14px); */
   border: none;
   box-shadow: 0 12px 40px rgba(0, 0, 0, 0.25);
 }

@@ -4,6 +4,7 @@ import { PlusOutlined, EditOutlined, DeleteOutlined } from '@ant-design/icons';
 import type { CarConfig } from '../../api/carConfig';
 import * as api from '../../api/carConfig';
 import { getCarList, type Car } from '../../api/car';
+import { isGuest } from '../../auth/token';
 
 export default function CarConfigPage() {
   const [data, setData] = useState<CarConfig[]>([]);
@@ -66,9 +67,9 @@ export default function CarConfigPage() {
     { title: '空悬', dataIndex: 'hasAirSuspension', width: 60, render: (v: string) => v === '1' ? <Tag color="green">有</Tag> : <Tag>无</Tag> },
     { title: '操作', key: 'action', width: 140, render: (_: unknown, r: CarConfig) => (
         <Space>
-          <Button type="link" icon={<EditOutlined />} onClick={() => openEdit(r)}>编辑</Button>
+          <Button type="link" icon={<EditOutlined />} onClick={() => openEdit(r)} disabled={isGuest()} title={isGuest() ? '访客模式下无操作权限' : undefined}>编辑</Button>
           <Popconfirm title="确定删除?" onConfirm={() => handleDelete([r.id!])}>
-            <Button type="link" danger icon={<DeleteOutlined />}>删除</Button>
+            <Button type="link" icon={<DeleteOutlined />} disabled={isGuest()} title={isGuest() ? '访客模式下无操作权限' : undefined} style={{ color: '#ef4444' }}>删除</Button>
           </Popconfirm>
         </Space>
       ),
@@ -83,7 +84,7 @@ export default function CarConfigPage() {
           <Select placeholder="筛选车型" allowClear style={{ width: 160 }}
             options={cars.map((c) => ({ label: c.name, value: c.id }))}
             onChange={(v) => { setFilterCarId(v); setPage(1); fetch(1, v); }} />
-          <Button type="primary" icon={<PlusOutlined />} onClick={openAdd}>新增配置</Button>
+          <Button type="primary" icon={<PlusOutlined />} onClick={isGuest() ? undefined : openAdd} disabled={isGuest()} title={isGuest() ? '访客模式下无操作权限' : undefined}>新增配置</Button>
         </Space>
       </div>
       <Table rowKey="id" columns={columns} dataSource={data} loading={loading}

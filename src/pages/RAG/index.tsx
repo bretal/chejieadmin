@@ -19,8 +19,10 @@ import {
   deleteDocument,
   getChatHistory,
   getTaskStatus,
+  getUserFiles,
   uploadDocument,
 } from '../../api/rag';
+import { isGuest } from '../../auth/token';
 
 const { Dragger } = Upload;
 
@@ -41,20 +43,6 @@ interface Message {
   content: string;
   sources?: { source: string; content: string }[];
   streaming?: boolean;
-}
-
-const DOCS_STORAGE_KEY = 'rag_docs';
-
-function loadDocs(): DocInfo[] {
-  try {
-    return JSON.parse(localStorage.getItem(DOCS_STORAGE_KEY) || '[]');
-  } catch {
-    return [];
-  }
-}
-
-function saveDocs(docs: DocInfo[]) {
-  localStorage.setItem(DOCS_STORAGE_KEY, JSON.stringify(docs));
 }
 
 function uid() {
@@ -91,7 +79,7 @@ const docColumns = [
     width: 60,
     render: (_: unknown, record: DocInfo) => (
       <Popconfirm title="确认删除？" onConfirm={() => handleDocDelete(record.md5, record.collection)}>
-        <Button type="text" danger size="small" icon={<DeleteOutlined />} />
+        <Button type="text" size="small" icon={<DeleteOutlined />} style={{ color: '#ef4444' }} />
       </Popconfirm>
     ),
   },
@@ -230,12 +218,28 @@ const useStyles = createStyles(({ css, cssVar }) => {
 
 export default function RAGPage() {
   const { styles } = useStyles();
-  const { message } = App.useApp();
+  const { message, modal } = App.useApp();
   const [sessionId] = useState(uid);
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState('');
   const [streaming, setStreaming] = useState(false);
-  const [docs, setDocs] = useState<DocInfo[]>(loadDocs);
+  const [docs, setDocs] = useState<DocInfo[]>([]);
+
+  // load user's files from server on mount
+  useEffect(() => {
+    getUserFiles().then((res) => {
+      if (res.files?.length) {
+        setDocs(res.files.map((f) => ({
+          md5: f.md5,
+          name: f.name,
+          collection: f.collection,
+          status: 'done' as const,
+          taskId: '',
+          uploadTime: Date.now(),
+        })));
+      }
+    }).catch(() => {});
+  }, []);
   const chatEndRef = useRef<HTMLDivElement>(null);
   const streamRef = useRef(false);
 
@@ -273,7 +277,6 @@ export default function RAGPage() {
       );
       if (changed) {
         setDocs(updated);
-        saveDocs(updated);
       }
     }, 2000);
 
@@ -285,6 +288,14 @@ export default function RAGPage() {
   };
 
   const handleUpload = async (file: File) => {
+    if (isGuest() && docs.length >= 1) {
+      modal.warning({
+        title: 'RAG仅支持访客用户体验一次',
+        content: '您已上传过文件，访客模式下仅支持上传一个文件进行体验。如需更多功能，请注册账号登录。',
+      });
+      return;
+    }
+
     const ext = '.' + file.name.split('.').pop()?.toLowerCase();
     if (!SUPPORTED_TYPES.includes(ext)) {
       message.error(`不支持的文件类型: ${ext}`);
@@ -294,7 +305,7 @@ export default function RAGPage() {
     try {
       const res = await uploadDocument(file);
       const newDoc: DocInfo = {
-        md5: '',
+        md5: res.file_md5 || '',
         name: file.name,
         collection: 'default',
         status: 'processing',
@@ -303,7 +314,6 @@ export default function RAGPage() {
       };
       const updated = [newDoc, ...docs];
       setDocs(updated);
-      saveDocs(updated);
       message.success(`${file.name} 上传成功，后台处理中...`);
     } catch (e: any) {
       const detail = e?.response?.data?.detail;
@@ -320,7 +330,6 @@ export default function RAGPage() {
       await deleteDocument(md5, collection);
       const updated = docs.filter((d) => !(d.md5 === md5 && d.collection === collection));
       setDocs(updated);
-      saveDocs(updated);
       message.success('删除成功');
     } catch (e: any) {
       message.error(`删除失败: ${e?.response?.data?.detail || e.message}`);

@@ -4,6 +4,7 @@ import { PlusOutlined, EditOutlined, DeleteOutlined } from '@ant-design/icons';
 import type { PersonaCar } from '../../api/personaCar';
 import * as api from '../../api/personaCar';
 import { getCarList, type Car } from '../../api/car';
+import { isGuest } from '../../auth/token';
 
 const personaKeyOpts = [
   { label: '小白科普 (newbie)', value: 'newbie' },
@@ -56,9 +57,9 @@ export default function PersonaCarPage() {
     { title: '操作', key: 'action', width: 140,
       render: (_: unknown, r: PersonaCar) => (
         <Space>
-          <Button type="link" icon={<EditOutlined />} onClick={() => openEdit(r)}>编辑</Button>
+          <Button type="link" icon={<EditOutlined />} onClick={() => openEdit(r)} disabled={isGuest()} title={isGuest() ? '访客模式下无操作权限' : undefined}>编辑</Button>
           <Popconfirm title="确定删除?" onConfirm={() => handleDelete([r.id!])}>
-            <Button type="link" danger icon={<DeleteOutlined />}>删除</Button>
+            <Button type="link" icon={<DeleteOutlined />} disabled={isGuest()} title={isGuest() ? '访客模式下无操作权限' : undefined} style={{ color: '#ef4444' }}>删除</Button>
           </Popconfirm>
         </Space>
       ),
@@ -73,7 +74,7 @@ export default function PersonaCarPage() {
           <Select placeholder="筛选画像" allowClear style={{ width: 180 }}
             options={personaKeyOpts}
             onChange={(v) => { setFilterPersona(v); setPage(1); fetch(1, v); }} />
-          <Button type="primary" icon={<PlusOutlined />} onClick={openAdd}>新增推荐</Button>
+          <Button type="primary" icon={<PlusOutlined />} onClick={isGuest() ? undefined : openAdd} disabled={isGuest()} title={isGuest() ? '访客模式下无操作权限' : undefined}>新增推荐</Button>
         </Space>
       </div>
       <Table rowKey="id" columns={columns} dataSource={data} loading={loading}

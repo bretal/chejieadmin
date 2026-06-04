@@ -3,6 +3,7 @@ import { Table, Button, Modal, Form, Input, Space, Popconfirm, Typography, messa
 import { PlusOutlined, EditOutlined, DeleteOutlined } from '@ant-design/icons';
 import type { Persona } from '../../api/persona';
 import * as api from '../../api/persona';
+import { isGuest } from '../../auth/token';
 
 const personaKeyOpts = [
   { label: '小白科普', value: 'newbie' },
@@ -52,9 +53,9 @@ export default function PersonaPage() {
     { title: '操作', key: 'action', width: 140,
       render: (_: unknown, r: Persona) => (
         <Space>
-          <Button type="link" icon={<EditOutlined />} onClick={() => openEdit(r)}>编辑</Button>
+          <Button type="link" icon={<EditOutlined />} onClick={() => openEdit(r)} disabled={isGuest()} title={isGuest() ? '访客模式下无操作权限' : undefined}>编辑</Button>
           <Popconfirm title="确定删除?" onConfirm={() => handleDelete([r.id!])}>
-            <Button type="link" danger icon={<DeleteOutlined />}>删除</Button>
+            <Button type="link" icon={<DeleteOutlined />} disabled={isGuest()} title={isGuest() ? '访客模式下无操作权限' : undefined} style={{ color: '#ef4444' }}>删除</Button>
           </Popconfirm>
         </Space>
       ),
@@ -65,7 +66,7 @@ export default function PersonaPage() {
     <div>
       <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 16 }}>
         <Typography.Title level={3} style={{ margin: 0 }}>用户画像</Typography.Title>
-        <Button type="primary" icon={<PlusOutlined />} onClick={openAdd}>新增画像</Button>
+        <Button type="primary" icon={<PlusOutlined />} onClick={isGuest() ? undefined : openAdd} disabled={isGuest()} title={isGuest() ? '访客模式下无操作权限' : undefined}>新增画像</Button>
       </div>
       <Table rowKey="id" columns={columns} dataSource={data} loading={loading}
         pagination={{ current: page, total, pageSize: 10, onChange: (p) => { setPage(p); fetch(p); } }}
