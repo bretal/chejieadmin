@@ -39,7 +39,7 @@ export default function SectionBgNatural({ src }: SectionBgNaturalProps) {
 
   return (
     <div ref={wrapRef} className="section-bg section-bg--natural" aria-hidden>
-      <img ref={imgRef} src={src} alt="" decoding="async" draggable={false} />
+      <img ref={imgRef} src={src} alt="" loading="lazy" decoding="async" draggable={false} />
     </div>
   );
 }

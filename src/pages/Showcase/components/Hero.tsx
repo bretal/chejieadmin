@@ -1,15 +1,17 @@
-import type { CSSProperties } from 'react';
 import { HERO_BACKGROUND, HERO_TAGS, NJUCM_URL } from '../constants';
-import { showcaseImg } from '../utils';
+import { showcaseImg, showcaseImgSm } from '../utils';
 import ScrollingTags from './ScrollingTags';
 
 export default function Hero() {
+  const src = showcaseImg(HERO_BACKGROUND);
+  const srcSm = showcaseImgSm(HERO_BACKGROUND);
+
   return (
-    <header
-      className="hero hero--has-bg"
-      style={{ '--hero-bg': `url(${showcaseImg(HERO_BACKGROUND)})` } as CSSProperties}
-    >
-      <div className="hero-bg" aria-hidden />
+    <header className="hero hero--has-bg">
+      <picture className="hero-bg" aria-hidden>
+        <source srcSet={srcSm} media="(max-width: 768px)" />
+        <img src={src} alt="" fetchPriority="high" decoding="async" draggable={false} />
+      </picture>
       <div className="hero-content">
         <h1 className="hero-name hero-float">吕浩然</h1>
         <p className="hero-title hero-float hero-float-d1">全栈开发工程师 · Full-Stack Developer</p>
