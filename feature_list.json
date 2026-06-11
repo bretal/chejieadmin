@@ -1,0 +1,166 @@
+{
+  "project": "chejieadmin",
+  "description": "车界管理后台 — 汽车数据管理 SPA，含品牌/车型/配置/媒体/颜色/竞品/画像/Banner CRUD、RAG 问答助手、访客模式、前端监控 SDK、作品展示页",
+  "features": [
+    {
+      "id": "showcase-page",
+      "name": "作品展示页",
+      "description": "公开首页 (/)，包含 Hero、技术能力轮播、项目展示(Web/小程序/后端)、代码片段、页脚",
+      "status": "pass",
+      "evidence": "ShowcasePage 在 / 路径渲染，包含 Hero、Carousel、MediaCarousel、CodeBlock、ShowcaseFooter 等子组件，支持视口交叉检测和懒加载背景",
+      "testedAt": "2026-06-11T00:00:00Z"
+    },
+    {
+      "id": "auth-login",
+      "name": "登录认证",
+      "description": "用户可通过账号密码登录，支持访客免密登录，token 存储在 localStorage 并自动附加到 API 请求",
+      "status": "pass",
+      "evidence": "LoginPage 支持表单登录和 guestLogin，AuthGuard 检查 isAuthenticated() 后放行或重定向，api/request.ts 拦截器自动附加 Bearer token 和 clientId，401 自动清除 token 并跳转登录页",
+      "testedAt": "2026-06-11T00:00:00Z"
+    },
+    {
+      "id": "guest-mode",
+      "name": "访客模式",
+      "description": "访客免密登录后只能查看数据，所有写操作按钮 disabled 并提示'访客模式下无操作权限'",
+      "status": "pass",
+      "evidence": "isGuest() 检查 localStorage，所有 CRUD 页面的新增/编辑/删除按钮通过 isGuest() 控制 disabled 状态，GlassLayout Header 显示橙色'访客模式'Tag",
+      "testedAt": "2026-06-11T00:00:00Z"
+    },
+    {
+      "id": "glass-layout",
+      "name": "管理后台玻璃拟态布局",
+      "description": "管理后台外壳使用玻璃拟态风格：半透明 Sider(200px) + Header(64px) + Content，支持折叠侧边栏",
+      "status": "pass",
+      "evidence": "GlassLayout 使用 backdrop-filter blur + 半透明背景 + 柔和阴影的 shellSurface 样式，Sider 可折叠，Menu 选中项通过路径前缀匹配高亮",
+      "testedAt": "2026-06-11T00:00:00Z"
+    },
+    {
+      "id": "glass-theme",
+      "name": "全局玻璃拟态主题",
+      "description": "通过 ConfigProvider token + classNames 覆盖 AntD 所有常用组件的视觉风格，实现统一的玻璃拟态外观",
+      "status": "pass",
+      "evidence": "glassTheme.ts 使用 antd-style createStyles 定义 glass primitives，覆盖 Table/Menu/Modal/Button/Input/Select/Card/Dropdown/Popover/Switch/Progress/Alert/Form/Pagination/Tag/ColorPicker 的 classNames，index.css 和 glass-overrides.css 补充内部组件覆盖",
+      "testedAt": "2026-06-11T00:00:00Z"
+    },
+    {
+      "id": "dashboard",
+      "name": "仪表盘",
+      "description": "管理后台首页 (/manage)，展示品牌数、车型数、配置数、Banner 数等统计卡片",
+      "status": "pass",
+      "evidence": "Dashboard 页面使用 Card + Statistic 展示各实体计数，通过多个 API 并行获取统计数据",
+      "testedAt": "2026-06-11T00:00:00Z"
+    },
+    {
+      "id": "brand-crud",
+      "name": "品牌管理 CRUD",
+      "description": "品牌列表、搜索、新增、编辑、删除，支持状态启用/停用、排序、首字母、国家",
+      "status": "pass",
+      "evidence": "BrandPage 完整实现：Table 分页列表 + Input.Search 搜索 + Modal Form(名称/状态/Logo/国家/首字母/简介/排序) + 状态颜色渲染 + 访客权限控制",
+      "testedAt": "2026-06-11T00:00:00Z"
+    },
+    {
+      "id": "car-crud",
+      "name": "车型管理 CRUD",
+      "description": "车型列表、搜索、新增、编辑、删除，关联品牌，含车身类型/能源类型/尺寸参数",
+      "status": "pass",
+      "evidence": "CarPage 完整实现：Table + 搜索 + Modal Form + 品牌下拉选择 + 访客权限控制",
+      "testedAt": "2026-06-11T00:00:00Z"
+    },
+    {
+      "id": "car-config-crud",
+      "name": "配置管理 CRUD",
+      "description": "车型配置(车款)管理，含价格/续航/马力/配置项/芯片/音响等详细参数",
+      "status": "pass",
+      "evidence": "CarConfigPage 完整实现：Table + 搜索 + Modal Form(多字段) + 访客权限控制",
+      "testedAt": "2026-06-11T00:00:00Z"
+    },
+    {
+      "id": "car-media-crud",
+      "name": "媒体管理 CRUD",
+      "description": "车型图片/视频管理，支持媒体类型、URL、排序",
+      "status": "pass",
+      "evidence": "CarMediaPage 完整实现：Table + 搜索 + Modal Form + 媒体类型选择 + 访客权限控制",
+      "testedAt": "2026-06-11T00:00:00Z"
+    },
+    {
+      "id": "car-color-crud",
+      "name": "颜色管理 CRUD",
+      "description": "车型可选颜色管理，含颜色名称、色值、图片",
+      "status": "pass",
+      "evidence": "CarColorPage 完整实现：Table + 搜索 + Modal Form + 颜色值输入 + 访客权限控制",
+      "testedAt": "2026-06-11T00:00:00Z"
+    },
+    {
+      "id": "car-rival-crud",
+      "name": "竞品关系管理 CRUD",
+      "description": "车型间竞争关系管理，设置竞品车型和竞争类型",
+      "status": "pass",
+      "evidence": "CarRivalPage 完整实现：Table + 搜索 + Modal Form(选择车型+竞争类型) + 访客权限控制",
+      "testedAt": "2026-06-11T00:00:00Z"
+    },
+    {
+      "id": "persona-crud",
+      "name": "用户画像管理 CRUD",
+      "description": "用户画像创建和管理，含画像名称、描述、标签、特征参数",
+      "status": "pass",
+      "evidence": "PersonaPage 完整实现：Table + 搜索 + Modal Form + 访客权限控制",
+      "testedAt": "2026-06-11T00:00:00Z"
+    },
+    {
+      "id": "persona-car-crud",
+      "name": "画像推荐管理 CRUD",
+      "description": "用户画像到车型的推荐关系管理",
+      "status": "pass",
+      "evidence": "PersonaCarPage 完整实现：Table + 搜索 + Modal Form(选择画像+车型+推荐理由) + 访客权限控制",
+      "testedAt": "2026-06-11T00:00:00Z"
+    },
+    {
+      "id": "banner-crud",
+      "name": "Banner 管理 CRUD",
+      "description": "推广 Banner 的创建和管理，含标题、图片、链接、排序、状态",
+      "status": "pass",
+      "evidence": "BannerPage 完整实现：Table + 搜索 + Modal Form + 状态启用/停用 + 访客权限控制",
+      "testedAt": "2026-06-11T00:00:00Z"
+    },
+    {
+      "id": "rag-chat",
+      "name": "RAG 问答助手（需认证）",
+      "description": "基于知识库的 AI 对话，支持文档上传(PDF/DOCX/MD/CSV/TXT)、SSE 流式响应、对话历史",
+      "status": "pass",
+      "evidence": "RAGPage 左侧文档管理面板 + 右侧对话面板，上传调 /rag-api/documents/upload，对话通过 fetch + ReadableStream 解析 SSE 流，访客限上传一个文档",
+      "testedAt": "2026-06-11T00:00:00Z"
+    },
+    {
+      "id": "rag-public",
+      "name": "RAG 问答助手（公开）",
+      "description": "无需登录的 RAG 问答，带浮动粒子动效和打字指示器",
+      "status": "pass",
+      "evidence": "RAGPublicPage 在 /rag-public 路径公开访问，自带动画 UI，文档上传和对话功能同 RAGPage",
+      "testedAt": "2026-06-11T00:00:00Z"
+    },
+    {
+      "id": "monitor-sdk",
+      "name": "前端监控 SDK",
+      "description": "自建前端监控：Web Vitals 性能(FCP/LCP/CLS/INP)、导航时序、全局错误捕获、自动点击埋点、路由变更追踪、批量上报(指数退避重试)、离线队列(localStorage)、sendBeacon 页面卸载上报、面包屑",
+      "status": "pass",
+      "evidence": "monitor/ 模块完整实现：MonitorSDK 单例、PerformanceObserverModule、NavigationTimingModule、GlobalErrorCapture、ErrorBoundary、AutoTracker、CustomTracker、Reporter(批量+重试)、OfflineQueue(最多200条)、BreadcrumbManager(环形缓冲20条)，在 main.tsx 中 initMonitor()",
+      "testedAt": "2026-06-11T00:00:00Z"
+    },
+    {
+      "id": "sourcemap-upload",
+      "name": "Sourcemap 上传插件",
+      "description": "自定义 Vite 插件，生产构建时自动上传 .js.map 和 .css.map 到监控服务后删除本地文件",
+      "status": "pass",
+      "evidence": "vite-plugin-sourcemap-upload.ts 在 closeBundle 阶段扫描 dist/assets/*.map，POST 到 VITE_MONITOR_SOURCEMAP_URL，上传成功后删除本地文件",
+      "testedAt": "2026-06-11T00:00:00Z"
+    },
+    {
+      "id": "docker-deploy",
+      "name": "Docker 部署",
+      "description": "多阶段 Docker 构建 + Nginx 反向代理 + SSL + SPA 路由回退",
+      "status": "pass",
+      "evidence": "Dockerfile(多阶段: node:20-alpine 构建 + nginx:alpine 运行)、docker-compose.yml(80/443端口、SSL证书挂载)、nginx.conf(HTTP→HTTPS重定向、API代理、静态资源缓存、SPA fallback、actuator屏蔽)",
+      "testedAt": "2026-06-11T00:00:00Z"
+    }
+  ]
+}

@@ -20,7 +20,7 @@ export default function Section({ id, number, title, desc, children }: SectionPr
 
   const sectionStyle: CSSProperties | undefined =
     bgFile && !useNaturalBg && loaded
-      ? { '--section-bg': `url(${showcaseImg(bgFile)})` }
+      ? ({ '--section-bg': `url(${showcaseImg(bgFile)})` } as CSSProperties)
       : undefined;
 
   return (
