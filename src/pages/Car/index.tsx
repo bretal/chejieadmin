@@ -1,10 +1,11 @@
 import { useEffect, useState, useCallback } from 'react';
-import { Table, Button, Modal, Form, Input, InputNumber, Space, Popconfirm, Typography, message, Select, Tag } from 'antd';
+import { Table, Button, Modal, Form, Input, InputNumber, Space, Popconfirm, Typography, message, Select, Tag, Image } from 'antd';
 import { PlusOutlined, EditOutlined, DeleteOutlined } from '@ant-design/icons';
 import type { Car } from '../../api/car';
 import * as api from '../../api/car';
 import { getAllBrands, type Brand } from '../../api/brand';
 import { isGuest } from '../../auth/token';
+import ImageUpload from '../../components/ImageUpload';
 
 const bodyTypeOpts = [
   { label: '轿车', value: 'sedan' }, { label: 'SUV', value: 'suv' },
@@ -73,6 +74,7 @@ export default function CarPage() {
   const columns = [
     { title: 'ID', dataIndex: 'id', width: 50 },
     { title: '车型名称', dataIndex: 'name', width: 140 },
+    { title: '缩略图', dataIndex: 'thumbnail', width: 80, render: (v: string) => v ? <Image src={v} width={48} height={36} style={{ objectFit: 'cover', borderRadius: 4 }} /> : <span style={{ color: '#ccc' }}>-</span> },
     { title: '品牌', dataIndex: 'brandId', width: 80, render: (v: number) => getBrandName(v) },
     {
       title: '车身类型', dataIndex: 'bodyType', width: 80,
@@ -118,7 +120,7 @@ export default function CarPage() {
             <Form.Item name="bodyType" label="车身类型" rules={[{ required: true }]}><Select options={bodyTypeOpts} style={{ width: 130 }} /></Form.Item>
             <Form.Item name="energyType" label="能源类型" rules={[{ required: true }]}><Select options={energyTypeOpts} style={{ width: 130 }} /></Form.Item>
           </Space>
-          <Form.Item name="thumbnail" label="缩略图URL"><Input /></Form.Item>
+          <Form.Item name="thumbnail" label="缩略图"><ImageUpload /></Form.Item>
           <Space size={16}>
             <Form.Item name="lengthMm" label="车长(mm)"><InputNumber min={0} /></Form.Item>
             <Form.Item name="widthMm" label="车宽(mm)"><InputNumber min={0} /></Form.Item>

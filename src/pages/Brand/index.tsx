@@ -16,6 +16,7 @@ import { PlusOutlined, EditOutlined, DeleteOutlined } from '@ant-design/icons';
 import type { Brand } from '../../api/brand';
 import * as api from '../../api/brand';
 import { isGuest } from '../../auth/token';
+import ImageUpload from '../../components/ImageUpload';
 
 const STATUS_OPTIONS = [
   { label: '启用', value: '1' },
@@ -89,7 +90,7 @@ export default function BrandPage() {
   const columns = [
     { title: 'ID', dataIndex: 'id', width: 60 },
     { title: '品牌名称', dataIndex: 'name', width: 140 },
-    { title: 'Logo URL', dataIndex: 'logo', ellipsis: true, width: 200 },
+    { title: 'Logo', dataIndex: 'logo', width: 80, render: (v: string) => v ? <img src={v} alt="" style={{ width: 40, height: 40, objectFit: 'contain', borderRadius: 4 }} /> : null },
     { title: '国家', dataIndex: 'country', width: 80 },
     { title: '首字母', dataIndex: 'firstLetter', width: 70 },
     { title: '排序', dataIndex: 'sortOrder', width: 60 },
@@ -133,7 +134,7 @@ export default function BrandPage() {
               optionRender={(option) => renderStatusOption(String(option.value))}
             />
           </Form.Item>
-          <Form.Item name="logo" label="Logo URL"><Input /></Form.Item>
+          <Form.Item name="logo" label="品牌 Logo"><ImageUpload /></Form.Item>
           <Form.Item name="country" label="国家"><Input /></Form.Item>
           <Form.Item name="firstLetter" label="首字母"><Input maxLength={1} /></Form.Item>
           <Form.Item name="description" label="简介"><Input.TextArea rows={2} /></Form.Item>

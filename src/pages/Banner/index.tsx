@@ -4,6 +4,7 @@ import { PlusOutlined, EditOutlined, DeleteOutlined } from '@ant-design/icons';
 import type { Banner } from '../../api/banner';
 import * as api from '../../api/banner';
 import { isGuest } from '../../auth/token';
+import ImageUpload from '../../components/ImageUpload';
 
 export default function BannerPage() {
   const [data, setData] = useState<Banner[]>([]);
@@ -70,7 +71,7 @@ export default function BannerPage() {
       <Modal title={editing ? '编辑Banner' : '新增Banner'} open={modalOpen} onOk={handleOk} onCancel={() => setModalOpen(false)} width={680}>
         <Form form={form} layout="vertical">
           <Form.Item name="title" label="标题" rules={[{ required: true }]}><Input /></Form.Item>
-          <Form.Item name="imageUrl" label="图片URL" rules={[{ required: true }]}><Input placeholder="https://..." /></Form.Item>
+          <Form.Item name="imageUrl" label="Banner 图片" rules={[{ required: true }]}><ImageUpload /></Form.Item>
           <Form.Item name="linkUrl" label="跳转链接"><Input placeholder="/pages/car-detail/index?id=1" /></Form.Item>
           <Form.Item name="sortOrder" label="排序"><InputNumber min={0} /></Form.Item>
           <Form.Item name="status" label="状态">
