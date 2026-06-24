@@ -1,6 +1,6 @@
 import { useEffect, useState, useCallback } from 'react';
-import { Table, Button, Modal, Space, Popconfirm, Typography, message, Image, Upload } from 'antd';
-import { EditOutlined, DeleteOutlined, PlusOutlined } from '@ant-design/icons';
+import { Table, Button, Modal, Popconfirm, Typography, message, Image, Upload } from 'antd';
+import { EditOutlined, PlusOutlined } from '@ant-design/icons';
 import type { CarMedia, CarMediaGroup } from '../../api/carMedia';
 import * as api from '../../api/carMedia';
 import { isGuest } from '../../auth/token';
